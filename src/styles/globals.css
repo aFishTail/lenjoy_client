@@ -1,0 +1,24 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.textEditor {
+  max-width: 100% !important;
+}
+.wrapper-class {
+  width: 100%;
+  padding: 1rem;
+  border: 1px solid #ccc;
+}
+.editor-class {
+  background-color: #fff;
+  padding: 1rem;
+  border: 1px solid #ccc;
+}
+.toolbar-class {
+  border: 1px solid #ccc;
+}
+.preview {
+  padding: 1rem;
+  margin-top: 1rem;
+}
