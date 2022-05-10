@@ -31,7 +31,7 @@ function MyApp({ Component, pageProps, ...contextValue }: AppProps) {
 MyApp.getInitialProps = async (appContext: any) => {
   // calls page's `getInitialProps` and fills `appProps.pageProps`
   const appProps = await App.getInitialProps(appContext)
-  const categories = await CategoryProvider.list({})
+  const categories = await CategoryProvider.list()
   categories.unshift({ name: '全部', id: '-99', value: 'all' })
   // const tags = await CategoryProvider.list({})
   return { ...appProps, categories }

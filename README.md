@@ -15,3 +15,7 @@
 
 #### React Draft Wysiwyg
 起初工具栏很多都不可点击,将nextjs 降级到 12.0.8, react 降级到17.0.2可以使用
+
+### 页面重定向
+比如首页重定向到 category 页面
+使`getStaticProps``getServerSideProps` return redirect

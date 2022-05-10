@@ -69,6 +69,7 @@ const Category: NextPage = (props) => {
       <Box rounded={'lg'} bg={boxBg} boxShadow={'lg'} p={6}>
         <Stack spacing={4}>
           <Formik
+            validateOnChange={false}
             initialValues={{
               username: '',
               password: '',
@@ -82,7 +83,8 @@ const Category: NextPage = (props) => {
                 .min(6, '最短6位密码')
                 .max(16, '最长16位密码')
                 .required('请填写密码'),
-              captcha: Yup.string().required('请填写验证码'),
+              captcha: Yup.string().required('请填写验证码')
+              .length(4, '请输入4位验证码'),
             })}
             onSubmit={async (values: FormValues, actions) => {
               const { username, password, captcha } = values
@@ -103,7 +105,7 @@ const Category: NextPage = (props) => {
             }}
           >
             {(formProps: FormikProps<any>) => (
-              <Form>
+              <Form >
                 <Heading
                   size="sm"
                   borderBottom="1px"
@@ -117,7 +119,7 @@ const Category: NextPage = (props) => {
                     <FormControl>
                       <FormLabel htmlFor="username">用户名</FormLabel>
                       <Input {...field} id="username" type="text" />
-                      {form.errors.username ? (
+                      {form.errors.username && form.touched.username? (
                         <Text color="red.600" py={2}>
                           {form.errors.username}
                         </Text>
@@ -130,7 +132,7 @@ const Category: NextPage = (props) => {
                     <FormControl>
                       <FormLabel htmlFor="password">密码</FormLabel>
                       <Input {...field} id="password" type="password" />
-                      {form.errors.password ? (
+                      {form.errors.password && form.touched.password ? (
                         <Text color="red.600" py={2}>
                           {form.errors.password}
                         </Text>
@@ -152,7 +154,7 @@ const Category: NextPage = (props) => {
                           alt="captcha"
                         ></Image>
                       </HStack>
-                      {form.errors.captcha ? (
+                      {form.errors.captcha && form.touched.captcha? (
                         <Text color="red.600" py={2}>
                           {form.errors.captcha}
                         </Text>

@@ -6,7 +6,6 @@ import NextLink from 'next/link'
 
 export const Category: React.FC = () => {
   const { categories } = useContext(GlobalContext)
-  console.log('cates:', categories)
   return (
     <Box w="100px" bg="white">
       <Text textAlign="center" py={3}>

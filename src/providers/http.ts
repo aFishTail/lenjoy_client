@@ -18,8 +18,6 @@ export const httpProvider = axios.create({
 
 httpProvider.interceptors.request.use(
   (config) => {
-    console.log('request config', config)
-
     return config;
   },
 
@@ -50,7 +48,6 @@ httpProvider.interceptors.response.use(
     return res.data;
   },
   (err) => {
-    console.log('err:', err, err.response)
     console.log('err data:', err, err.response.data)
     if (err && err.response && err.response.status) {
       const status = err.response.status;

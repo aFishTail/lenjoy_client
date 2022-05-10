@@ -16,26 +16,25 @@ interface IFile {
   createAt: string;
 }
 
-interface IArticle {
+interface ITopic {
   id: string;
   title: string;
-  summary: string;
   content: string;
-  html: string;
-  cover?: string;
-  toc?: string;
-  views: number;
-  likes: number;
-  category: any;
-  tags?: [any];
-  status: string;
-  password?: string; // 访问密码
-  needPassword: boolean;
-  isRecommended?: boolean;
-  isCommentable?: boolean; // 是否可评论
+  recommand: number;
+  viewCount:number,
+  commentCount: number,
+  likeCount: number,
+  favoriteCount: number,
+  lastCommentTime: string,
+  lastCommentUser: string, // 评论人名称
+  userAgent: string,
+  ip: string,
+  category: ICategory,
+  userId: string,
   createAt: string;
   updateAt: string;
-  publishAt: string;
+  user: IUser;
+  isLike: 0 | 1
 }
 
 interface ITag {
@@ -48,7 +47,12 @@ interface ITag {
 interface ICategory {
   id: string;
   name: string;
-  value: string;
+  label: string;
+  description: string,
+  logo: string,
+  sortNo: string,
+  status: number,
+  topics: ITopic[]
 }
 
 interface IKnowledge {
@@ -144,4 +148,9 @@ interface ISetting {
   seoDesc?: string; //  SEO 描述
   baiduAnalyticsId?: string; // 百度统计id
   googleAnalyticsId?: string; // 谷歌分析 id
+}
+
+interface PagerList<T> {
+  records: T[],
+  total: number
 }
