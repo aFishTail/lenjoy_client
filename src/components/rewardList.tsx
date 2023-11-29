@@ -21,12 +21,10 @@ import dayjs from 'dayjs'
 import Link from 'next/link'
 
 interface IProps {
-  data: IResource[]
+  data: IReward[]
 }
 
-export const ResourceList = ({ data }: IProps) => {
-  console.log('resList', data)
-
+export const RewardList = ({ data }: IProps) => {
   const doLike = useCallback((id: string, status: 0 | 1) => {
     UserLikeProvide.doLikeTopic({ entityId: id, status })
   }, [])
@@ -37,7 +35,7 @@ export const ResourceList = ({ data }: IProps) => {
         <List w="100%">
           {data.map((item) => (
             <ListItem key={item.id}>
-              <Link href={`/resource/detail/${item.id}`}>
+              <Link href={`/reward/detail/${item.id}`}>
                 <HStack
                   bg="white"
                   mb={3}
@@ -70,7 +68,7 @@ export const ResourceList = ({ data }: IProps) => {
                         {item.isPublic ? '免费' : `${item.score}积分`}
                       </Badge>
                       <Text color="gray.600" fontWeight="medium">
-                        {item.name}
+                        {item.title}
                       </Text>
                     </Flex>
                     <Flex

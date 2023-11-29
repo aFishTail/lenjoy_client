@@ -18,6 +18,9 @@ const notNeedLayoutPages: string[] = [
   '/resource/editor',
   '/resource/editor/[id]',
   '/resource/detail/[id]',
+  '/reward/editor',
+  '/reward/editor/[id]',
+  '/reward/detail/[id]',
 ]
 
 export const AppLayout: React.FC = ({ children }) => {

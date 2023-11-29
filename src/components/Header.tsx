@@ -129,7 +129,7 @@ export const Header: React.FC = () => {
                 <TabList>
                   <Tab onClick={() => {handleTabChange(0)}}>首页</Tab>
                   <Tab onClick={() => {handleTabChange(1)}}>资源</Tab>
-                  <Tab onClick={() => {handleTabChange(0)}}>悬赏</Tab>
+                  <Tab onClick={() => {handleTabChange(2)}}>悬赏</Tab>
                 </TabList>
                 <TabIndicator
                   mt="-1.5px"

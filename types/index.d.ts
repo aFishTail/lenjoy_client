@@ -9,7 +9,7 @@ interface IUser {
   score: number
   topicCount: number
   commnetCount: number
-  fansCount: number 
+  fansCount: number
   followCount: number
 }
 
@@ -102,9 +102,9 @@ interface IComment {
   content: string
   likeCount: string
   commentcount: string
-  user: IUser,
-  entityId: string,
-  quoteId: string,
+  user: IUser
+  entityId: string
+  quoteId: string
   createAt: Date
 }
 
@@ -158,6 +158,7 @@ interface PagerList<T> {
 interface IUserScore {
   userId: string
   username: string
+  nickname: string
   avatar: string
   topicCount: string
   commentCount: string
@@ -165,32 +166,53 @@ interface IUserScore {
 }
 
 interface IResource {
-  id: string;
-  name: string;
-  url: string;
-  haveCode: boolean;
-  code?: any;
-  accessible: boolean;
-  lastCheckTime?: any;
-  userId: string;
-  isPublic: boolean;
-  score?: number;
-  content: string;
-  recommend: number;
-  viewCount: number;
-  commentCount: number;
-  likeCount: number;
-  favoriteCount: number;
-  lastCommentTime?: any;
-  lastCommentUser?: any;
-  deletedTime?: any;
-  createAt: string;
-  updateAt: string;
-  category?: ICategory;
-  user: IUser;
-  havePayed: boolean;
+  id: string
+  name: string
+  url: string
+  haveCode: boolean
+  code?: any
+  accessible: boolean
+  lastCheckTime?: any
+  userId: string
+  isPublic: boolean
+  score?: number
+  content: string
+  recommend: number
+  viewCount: number
+  commentCount: number
+  likeCount: number
+  favoriteCount: number
+  lastCommentTime?: any
+  lastCommentUser?: any
+  deletedTime?: any
+  createAt: string
+  updateAt: string
+  category?: ICategory
+  user: IUser
+  havePayed: boolean
 }
 
 type IEntityType = 'topic' | 'resource' | 'reward'
 
-type IEntity = ITopic | IResource
+type IEntity = ITopic | IResource | IReward
+
+interface IReward {
+  id: string
+  title: string
+  content: string
+  viewCount: number
+  commentCount: number
+  likeCount: number
+  favoriteCount: number
+  score: number
+  isPublic: boolean
+  status: string
+  cancelType: string
+  deletedTime?: any
+  createAt: string
+  updateAt: string
+  user: IUser
+  rewardUser?: IUser
+  rewardAnswers: any[]
+  category: ICategory
+}

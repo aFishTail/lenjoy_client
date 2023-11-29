@@ -66,7 +66,7 @@ const UserCenter: NextPage = (props) => {
             src={user?.avatar || 'https://bit.ly/dan-abramov'}
           />
           <VStack alignItems={'flex-start'}>
-            <Text as="b">{user?.username}</Text>
+            <Text as="b">{user?.nickname}</Text>
             <Text>{user?.description || ' 这个人很懒， 什么都没有留下'}</Text>
           </VStack>
         </HStack>

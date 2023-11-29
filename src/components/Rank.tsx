@@ -35,12 +35,12 @@ export const Rank: React.FC = () => {
             <Flex justify="space-between" align="center">
               <HStack>
                 <Avatar
-                  name={item.username}
+                  name={item.nickname}
                   size="sm"
                   src={getFullStaticSrc(item.avatar)}
                 />
                 <Box>
-                  <Text color="gray.600">{item.username}</Text>
+                  <Text color="gray.600">{item.nickname}</Text>
                   <HStack color="gray.500" fontSize="sm">
                     <Text>{item.topicCount} 帖子</Text>
                     <Text>.</Text>
