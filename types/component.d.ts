@@ -1,0 +1,1 @@
+type IComponentMode = 'create' | 'update'

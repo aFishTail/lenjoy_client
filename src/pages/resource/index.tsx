@@ -1,26 +1,27 @@
 import type { GetServerSideProps, GetStaticProps, NextPage } from 'next'
 import { Center, Square, Circle, Button, Box } from '@chakra-ui/react'
 import InfiniteScroll from 'react-infinite-scroller'
-import { TopicList } from '@/components/topicList'
-import { TopicProvider } from '@/providers/topic'
+import { ResourceList } from '@/components/resourceList'
+// import { PAGE_SIZE } from '@/common/constant'
+import { ResourceProvider } from '@/providers/resource'
 import { useCallback, useState } from 'react'
 
 const PAGE_SIZE = 8
 interface IProps {
-  data: PagerList<ITopic>
+  data: PagerList<Iresource>
 }
 
 const Home: NextPage<IProps> = (props) => {
   const [pageNum, setPageNum] = useState(1)
   const [total, setTotal] = useState(props.data.total)
-  const [topics, setTopics] = useState<ITopic[]>(props.data.records)
+  const [resources, setResources] = useState<Iresource[]>(props.data.records)
 
   const loadTopics = useCallback(async (pageNum) => {
-    const res = await TopicProvider.list({
+    const res = await ResourceProvider.list({
       pageNum,
       pageSize: PAGE_SIZE,
     })
-    setTopics((topics) =>[...topics, ...res.records])
+    setResources((resources) =>[...resources, ...res.records])
     setPageNum(pageNum)
     setTotal(res.total)
   }, [])
@@ -33,7 +34,7 @@ const Home: NextPage<IProps> = (props) => {
         loader={<div key={0}>加载中...</div>}
         useWindow={false}
       >
-        <TopicList topics={topics}></TopicList>
+        <ResourceList data={resources}></ResourceList>
       </InfiniteScroll>
     </Box>
   )
@@ -42,7 +43,7 @@ const Home: NextPage<IProps> = (props) => {
 export default Home
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const data = await TopicProvider.list({
+  const data = await ResourceProvider.list({
     pageSize: PAGE_SIZE,
     pageNum: 1,
   })

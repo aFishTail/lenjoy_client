@@ -1,0 +1,21 @@
+.textEditor {
+  max-width: 100% !important;
+}
+.wrapper-class {
+  width: 100%;
+  padding: 1rem;
+  border: 1px solid #ccc;
+}
+.editor-class {
+  background-color: #fff;
+  padding: 1rem;
+  border: 1px solid #ccc;
+  min-height: 600px;
+}
+.toolbar-class {
+  border: 1px solid #ccc;
+}
+.preview {
+  padding: 1rem;
+  margin-top: 1rem;
+}
