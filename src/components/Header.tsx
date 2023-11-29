@@ -29,11 +29,9 @@ import { getFullStaticSrc } from '@/utils/helper'
 import { AuthProvider } from '@/providers/auth'
 import { Link } from '@chakra-ui/next-js'
 
-
 export const Header: React.FC = () => {
   const { user, setUser } = useContext(GlobalContext)
   const router = useRouter()
-
   const toast = useToast()
 
   const goLogin = () => {
@@ -89,8 +87,7 @@ export const Header: React.FC = () => {
 
   const avatar = useMemo(() => getFullStaticSrc(user?.avatar), [user])
   const [tabIndex, setTabIndex] = useState(0)
-  const handleTabChange = (index) => {
-    console.log('ss', index, tabIndex)
+  const handleTabChange = (index: number) => {
     setTabIndex(index)
     switch (index) {
       case 0:
@@ -106,28 +103,21 @@ export const Header: React.FC = () => {
   }
 
   useEffect(() => {
-    console.log('mounted', router.pathname)
-    switch (router.pathname) {
-      case '/':
-        setTabIndex(0)
-        break
-      case '/resource':
-        setTabIndex(1)
-        break
-      case '/reward':
-        setTabIndex(2)
-        break
+    if (router.pathname === '/' || router.pathname.includes('/topic')) {
+      setTabIndex(0)
+    } else if (router.pathname.includes('/resource')) {
+      setTabIndex(1)
+    } else if (router.pathname.includes('/reward')) {
+      setTabIndex(2)
     }
-  }, [])
+  }, [router.pathname])
 
   return (
     <Center bg="white" w="100%" p={4} as="header">
       <Container maxW="container.lg">
         <HStack spacing={4}>
           <Box w="120px">
-            <Link href="/">
-              乐享
-            </Link>
+            <Link href="/">乐享</Link>
           </Box>
           <Box w="600px">
             <Flex justify="space-between">
