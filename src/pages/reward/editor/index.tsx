@@ -1,10 +1,10 @@
 import React from 'react';
 import { GetServerSideProps, NextPage } from 'next';
-import ResourceEditor from '@/components/resourceEditor';
+import RewardEditor from '@/components/rewardEditor';
 
 
 const Editor: NextPage = () => {
-  return <ResourceEditor />;
+  return <RewardEditor />;
 };
 
 

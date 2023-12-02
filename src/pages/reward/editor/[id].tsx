@@ -1,22 +1,22 @@
 import React from 'react';
 import { GetServerSideProps, NextPage } from 'next';
-import ResourceEditor from '@/components/resourceEditor';
-import { ResourceProvider } from '@/providers/resource';
+import { RewardProvider } from '@/providers/reward';
+import RewardEditor from '@/components/rewardEditor';
 
 interface IProps {
   id: string;
-  resource: IResource;
+  reward: IReward;
 }
 
-const Editor: NextPage<IProps> = ({ id, resource }) => {
-  return <ResourceEditor id={id} resource={resource} />;
+const Editor: NextPage<IProps> = ({ id, reward }) => {
+  return <RewardEditor id={id} reward={reward} />;
 };
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { id } = ctx.query;
-  const resource = await ResourceProvider.detail({id: (id as string)});
+  const reward = await RewardProvider.detail({id: (id as string)});
   return {
-    props: { id: (id as string), resource }
+    props: { id: (id as string), reward }
   }
 };
 

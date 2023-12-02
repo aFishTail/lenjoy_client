@@ -15,8 +15,9 @@ import { ToastContainer } from '@/utils/toast'
 export default function MyApp({ Component, pageProps, ...contextValue }: AppProps) {
   const [user, setUserInfo] = useState<IUser>()
   const setUser = (user: IUser) => {
-    storage.setItem('user', user, 60 * 60)
-    storage.setItem('token', user?.token, 60 * 60)
+    // TODO: token缓存时间消失，页面未刷新
+    storage.setItem('user', user, 60 * 60 * 24)
+    storage.setItem('token', user?.token, 60 * 60 * 24)
     setUserInfo(user)
   }
   useEffect(() => {

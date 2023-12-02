@@ -20,7 +20,7 @@ export class RewardProvider {
     return httpProvider.post('/reward/update', params);
   }
 
-  static async detail(params: {id: string}, config: AxiosRequestConfig): Promise<IReward> {
+  static async detail(params: {id: string}, config: AxiosRequestConfig = {}): Promise<IReward> {
     return httpProvider.post('/reward/detail', params, config);
   }
 

@@ -66,7 +66,7 @@ const RewardDetail: NextPage<IProps> = (props) => {
 
   const confirmDel = useCallback(async () => {
     await RewardProvider.remove({ id: data.id })
-    router.push('/data')
+    router.push('/reward')
   }, [data.id])
 
   const { isOpen, onOpen, onClose } = useDisclosure()
