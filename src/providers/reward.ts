@@ -27,4 +27,16 @@ export class RewardProvider {
   static async remove(params: {id: string}): Promise<IReward> {
     return httpProvider.post('/reward/delete', params);
   }
+
+  static async confirmRewardAnswer(params:{rewardId: string, rewardAnswerId: string} ): Promise<any> {
+    return httpProvider.post('/reward/confirm', params);
+  }
+
+  static async addComment(params: {rewardId: string, content: string}): Promise<any> {
+    return httpProvider.post('/rewardAnswer/create', params);
+  }
+
+  static async getCommentList(params:{rewardId: string, pageNum: number, pageSize: number} ): Promise<any> {
+    return httpProvider.post('/rewardAnswer/query', params);
+  }
 }

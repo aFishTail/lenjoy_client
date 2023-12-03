@@ -50,12 +50,6 @@ export const CommentList: FC<IProps> = ({ list }) => {
                     赞 {item.likeCount}
                   </Text>
                 </HStack>
-                {/* <HStack>
-                  <Icon as={BiCommentDetail}></Icon>
-                  <Text ml={1} mr={4}>
-                    评论{9999}
-                  </Text>
-                </HStack> */}
               </HStack>
             </VStack>
           </HStack>

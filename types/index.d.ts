@@ -206,13 +206,24 @@ interface IReward {
   favoriteCount: number
   score: number
   isPublic: boolean
-  status: string
+  status: 'finish'  | "underway"
   cancelType: string
   deletedTime?: any
   createAt: string
   updateAt: string
   user: IUser
   rewardUser?: IUser
-  rewardAnswers: any[]
+  rewardAnswers: IRewardAnswer[]
   category: ICategory
+  confirmedRewardAnswer: IRewardAnswer
+}
+
+interface IRewardAnswer {
+  id: string;
+  content: string;
+  user:IUser;
+  reward:IReward;
+  isConfirmedAnswer: boolean;
+  createAt: string
+  updateAt: string
 }

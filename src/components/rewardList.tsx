@@ -57,6 +57,15 @@ export const RewardList = ({ data }: IProps) => {
                           {item.user.nickname}
                         </Text>
                         <Text color="gray.500" fontSize="xs">
+                          {item.status === 'finish' ? (
+                            <Badge mr="2" fontSize="0.8em" colorScheme="red">
+                              已结束
+                            </Badge>
+                          ) : (
+                            <Badge mr="2" fontSize="0.8em" colorScheme="green">
+                              进行中
+                            </Badge>
+                          )}
                           {dayjs(item.createAt).fromNow()}
                         </Text>
                       </HStack>

@@ -25,6 +25,7 @@ import {
   AlertDialogBody,
   Icon,
   Avatar,
+  Badge,
 } from '@chakra-ui/react'
 import { useCallback, useContext, useEffect, useRef, useState } from 'react'
 import { UserIntro } from '@/components/UserIntro'
@@ -39,6 +40,7 @@ import { RewardProvider } from '@/providers/reward'
 // import { dataLinkViewer } from '@/components/rewardLinkViewer'
 import { SessionData, sessionOptions } from '@/lib/session'
 import { getIronSession } from 'iron-session'
+import { RewardComment } from '@/components/rewardComment'
 
 interface IProps {
   data: IReward
@@ -113,6 +115,15 @@ const RewardDetail: NextPage<IProps> = (props) => {
               )}
             </HStack>
             <Text fontSize="xl" fontWeight="medium" pt="3">
+              {data.status === 'finish' ? (
+                <Badge mr="2" fontSize="0.8em" colorScheme="red">
+                  已结束
+                </Badge>
+              ) : (
+                <Badge mr="2" fontSize="0.8em" colorScheme="green">
+                  进行中
+                </Badge>
+              )}
               {data.title}
             </Text>
             <Divider borderColor="gray.300" my="2"></Divider>
@@ -160,7 +171,7 @@ const RewardDetail: NextPage<IProps> = (props) => {
             </Flex>
           </Box>
           {/* 评论区域 */}
-          <Comment user={user} entity={data} entityType='reward'></Comment>
+          <RewardComment user={user} reward={data}></RewardComment>
         </Box>
 
         <UserIntro user={data.user}></UserIntro>
