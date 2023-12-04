@@ -25,7 +25,7 @@ export const Comment: React.FC<IProps> = ({ user, entity, entityType }) => {
   const toast = useToast();
   const [commentValue, setCommentValue] = useState<string>("");
 
-  const handleInputChange = useCallback((e) => {
+  const handleInputChange = useCallback((e: any) => {
     setCommentValue(e.target.value);
   }, []);
 
@@ -53,7 +53,7 @@ export const Comment: React.FC<IProps> = ({ user, entity, entityType }) => {
       status: "success",
       position: "top",
     });
-    setCommentValue([]);
+    setCommentValue([] as any);
     getList();
   };
 

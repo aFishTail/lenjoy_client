@@ -85,7 +85,7 @@ export const ResourceList = ({ data }: IProps) => {
                           ml={1}
                           mr={4}
                           onClick={() => {
-                            doLike(item.id, item.isLike ? 0 : 1)
+                            doLike(item.id, (item as any).isLike ? 0 : 1)
                           }}
                         >
                           赞 {item.likeCount}

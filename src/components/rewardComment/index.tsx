@@ -52,11 +52,11 @@ export const RewardComment: React.FC<IProps> = ({ user, reward }) => {
       status: "success",
       position: "top",
     });
-    setCommentValue([]);
+    setCommentValue([] as any);
     getList();
   };
 
-  const [commentList, setCommentList] = useState<IComment[]>([]);
+  const [commentList, setCommentList] = useState<IRewardAnswer[]>([]);
   const [pageNum, setPageNum] = useState(1);
   const [total, setTotal] = useState<number>(0);
   const [loading, setLoading] = useState(false)

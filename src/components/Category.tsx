@@ -29,7 +29,7 @@ export const Category: React.FC = () => {
             mx={2}
             borderRadius="sm"
           >
-            <Link key={item.id} href={`/category/${item.label || 'all'}`} passHref>
+            <Link key={item.id} href={`/category/${item.label || 'all'}`}>
               {item.name}
             </Link>
           </ListItem>

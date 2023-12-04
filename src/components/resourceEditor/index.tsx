@@ -1,4 +1,3 @@
-import { NextPage } from 'next'
 import IEditor from '@/components/Editor'
 import {
   Box,
@@ -8,30 +7,20 @@ import {
   Input,
   Select,
   Text,
-  toast,
   useToast,
   Flex,
   Switch,
   HStack,
-  NumberInputField,
-  NumberDecrementStepper,
-  NumberIncrementStepper,
-  NumberInput,
-  NumberInputStepper,
 } from '@chakra-ui/react'
 import { Field, Form, Formik, FormikProps } from 'formik'
 import {
-  createContext,
-  createRef,
   FC,
   useContext,
-  useRef,
   useState,
 } from 'react'
 import { GlobalContext } from '@/context/global'
 import { ResourceProvider } from '@/providers/resource'
 import { useRouter } from 'next/router'
-import { trimText } from '@/utils/dom'
 import * as Yup from 'yup'
 
 type FormValues = Pick<
