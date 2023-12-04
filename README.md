@@ -1,40 +1,27 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+## 简介
+该项目是采用React、Ts、NextJs构建的社区论坛，演示地址：http://81.69.252.155:6060
+### 相关仓库
+- 后端仓库：[https://github.com/aFishTail/lenjoy_server](https://github.com/aFishTail/lenjoy_server)
+- 后台管理平台：[https://github.com/aFishTail/lenjoy_admin](https://github.com/aFishTail/lenjoy_admin)
+## 技术栈
+- Ts, NextJs
+- Tailwind
+- Antd
 
-First, run the development server:
+## 踩坑
+- 目录别名，`tsconfig-paths-webpack-plugin`
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### 表单控制
+使用 [formik](https://github.com/jaredpalmer/formik) 进行表单控制
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 富文本编辑器
+#### WangEditor
+回报错重复渲染
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+#### React Draft Wysiwyg
+起初工具栏很多都不可点击,将nextjs 降级到 12.0.8, react 降级到17.0.2可以使用
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+### 页面重定向
+比如首页重定向到 category 页面
+使`getStaticProps``getServerSideProps` return redirect
