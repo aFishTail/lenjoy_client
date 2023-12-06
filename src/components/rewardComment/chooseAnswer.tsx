@@ -18,6 +18,7 @@ import { useRouter } from 'next/router'
 import { useCallback, useContext, useRef, useState } from 'react'
 import { Link } from '@chakra-ui/next-js'
 import { RewardProvider } from '@/providers/reward'
+import { redirect } from 'next/navigation'
 
 interface IProps {
   reward: IReward
@@ -46,6 +47,7 @@ export const ChooseAnswer: React.FC<IProps> = ({ reward, rewardAnswer }) => {
       position: 'top',
     })
     onClose()
+    location.reload()
   }, [])
 
   if(reward.confirmedRewardAnswer) {

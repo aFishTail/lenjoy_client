@@ -88,7 +88,7 @@ const ResourceDetail: NextPage<IProps> = (props) => {
                 m={2}
               ></Avatar>
               <VStack alignItems="flex-start">
-                <Text fontSize="20px">{resource.user.username}</Text>
+                <Text fontSize="20px">{resource.user.nickname}</Text>
                 <Text>{dayjs(resource.createAt).fromNow()}</Text>
               </VStack>
               {isOwner && (

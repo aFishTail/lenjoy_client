@@ -18,7 +18,7 @@ interface IProps {
 
 export const UserIntro: React.FC<IProps> = ({ user }) => {
   const {
-    username,
+    nickname,
     avatar,
     description,
     score,
@@ -31,14 +31,14 @@ export const UserIntro: React.FC<IProps> = ({ user }) => {
       <VStack>
         <Avatar
           src={getFullStaticSrc(avatar)}
-          name={username}
+          name={nickname}
           alt="头像"
           boxSize="50px"
           borderRadius={'50%'}
           m={2}
         ></Avatar>
         <Link href={'#'}>
-          {username}
+          {nickname}
         </Link>
         <Text fontSize="sm">{description || '这个人很懒，什么都没有留下'}</Text>
         <HStack

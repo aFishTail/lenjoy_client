@@ -112,12 +112,16 @@ export const Header: React.FC = () => {
     }
   }, [router.pathname])
 
+  const handleClickLogo = useCallback(() => {
+    location.replace('/')
+  }, [])
+
   return (
     <Center bg="white" w="100%" p={4} as="header">
       <Container maxW="container.lg">
         <HStack spacing={4}>
           <Box w="120px">
-            <Link href="/">乐享</Link>
+            <Text cursor="pointer" onClick={handleClickLogo}>乐享</Text>
           </Box>
           <Box w="600px">
             <Flex justify="space-between">
@@ -127,7 +131,7 @@ export const Header: React.FC = () => {
                 colorScheme="teal"
               >
                 <TabList>
-                  <Tab onClick={() => {handleTabChange(0)}}>首页</Tab>
+                  <Tab onClick={() => {handleTabChange(0)}}>话题</Tab>
                   <Tab onClick={() => {handleTabChange(1)}}>资源</Tab>
                   <Tab onClick={() => {handleTabChange(2)}}>悬赏</Tab>
                 </TabList>
@@ -159,7 +163,7 @@ export const Header: React.FC = () => {
                 发布
               </MenuButton>
               <MenuList>
-                <MenuItem onClick={() => handlePost(1)}>发布帖子</MenuItem>
+                <MenuItem onClick={() => handlePost(1)}>发布话题</MenuItem>
                 <MenuItem onClick={() => handlePost(2)}>发布资源</MenuItem>
                 <MenuItem onClick={() => handlePost(3)}>发布悬赏</MenuItem>
               </MenuList>

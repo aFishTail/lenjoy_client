@@ -25,3 +25,6 @@
 ### 页面重定向
 比如首页重定向到 category 页面
 使`getStaticProps``getServerSideProps` return redirect
+
+## TODO
+- [ ] 支付积分后刷新页面

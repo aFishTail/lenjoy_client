@@ -89,7 +89,7 @@ const RewardDetail: NextPage<IProps> = (props) => {
                 m={2}
               ></Avatar>
               <VStack alignItems="flex-start">
-                <Text fontSize="20px">{data.user.username}</Text>
+                <Text fontSize="20px">{data.user.nickname}</Text>
                 <Text>{dayjs(data.createAt).fromNow()}</Text>
               </VStack>
               {isOwner && (

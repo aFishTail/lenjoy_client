@@ -9,6 +9,8 @@ import {
   Text,
   Textarea,
   useToast,
+  Card,
+  CardBody
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useMemo, useState } from "react";
@@ -61,6 +63,8 @@ export const RewardComment: React.FC<IProps> = ({ user, reward }) => {
   const [total, setTotal] = useState<number>(0);
   const [loading, setLoading] = useState(false)
   const hasMore = useMemo(() => pageNum * PAGE_SIZE < total, [pageNum, total]);
+  const isOwnReward = useMemo(() => reward.user.id === user?.id, [reward, user])
+  const notShowCommentList = useMemo(() => !reward.isPublic && !isOwnReward, [reward, isOwnReward])
   const getList = useCallback(async () => {
     setLoading(true)
     const params = {
@@ -75,12 +79,21 @@ export const RewardComment: React.FC<IProps> = ({ user, reward }) => {
   }, [reward.id, pageNum]);
 
   useEffect(() => {
+    if(notShowCommentList) return
     getList();
-  }, [pageNum]);
+  }, [getList]);
 
   const handleLoadMore = () => {
     setPageNum(pageNum + 1);
   };
+
+  if(notShowCommentList) {
+    return <Card>
+    <CardBody>
+      <Text>非公开悬赏，评论不可见</Text>
+    </CardBody>
+  </Card>
+  }
 
   return (
     <Box bg={"white"} pt={4} px={2}>

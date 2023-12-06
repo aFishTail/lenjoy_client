@@ -85,7 +85,7 @@ const TopicDetail: NextPage<IProps> = (props) => {
                 m={2}
               ></Avatar>
               <VStack alignItems="flex-start">
-                <Text fontSize="20px">{topic.user.username}</Text>
+                <Text fontSize="20px">{topic.user.nickname}</Text>
                 <Text>{dayjs(topic.createAt).fromNow()}</Text>
               </VStack>
               {isOwner && (

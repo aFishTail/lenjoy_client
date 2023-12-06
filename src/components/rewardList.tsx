@@ -71,12 +71,14 @@ export const RewardList = ({ data }: IProps) => {
                       </HStack>
                     </HStack>
                     <Flex w="100%">
-                      <Badge
-                        mr="1"
-                        colorScheme={item.isPublic ? 'green' : 'red'}
-                      >
-                        {item.isPublic ? '免费' : `${item.score}积分`}
-                      </Badge>
+                      {item.isPublic && (
+                        <Badge
+                          mr="1"
+                          colorScheme={item.isPublic ? 'green' : 'red'}
+                        >
+                          公开悬赏
+                        </Badge>
+                      )}
                       <Text color="gray.600" fontWeight="medium">
                         {item.title}
                       </Text>

@@ -8,10 +8,11 @@ export const Category: React.FC = () => {
   const { categories } = useContext(GlobalContext)
   return (
     <Box w="100px" h='fit-content' bg="white">
+      {/* <Link href={`/category/all`}>
       <Text textAlign="center" py={3}>
-        主题
+        全部
       </Text>
-      <Divider></Divider>
+      </Link> */}
       <List
         spacing={2}
         py={2}
@@ -19,7 +20,21 @@ export const Category: React.FC = () => {
         fontSize="16px"
         fontWeight={600}
       >
-        {[{ name: '全部', id: '-99', label: 'all' },...categories].map((item) => (
+        <ListItem
+            key={'all'}
+            textAlign="center"
+            cursor="pointer"
+            _hover={{ bg: 'gray.50' }}
+            py={2}
+            mx={2}
+            borderRadius="sm"
+          >
+            <Link key={'all'} href={`/category/${'all'}`}>
+              {'全部'}
+            </Link>
+          </ListItem>
+          <Divider></Divider>
+        {[...categories].map((item) => (
           <ListItem
             key={item.id}
             textAlign="center"

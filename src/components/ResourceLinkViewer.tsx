@@ -45,12 +45,20 @@ export const ResourceLinkViewer: React.FC<IProps> = ({ data }) => {
   }, [])
 
   const handleExecPay = useCallback(async () => {
-    await ResourceProvider.pay(data.id)
-    toast({
-      title: '保存成功',
-      status: 'success',
-      position: 'top',
-    })
+    try {
+      await ResourceProvider.pay(data.id)
+      payOnClose()
+      toast({
+        title: '支付积分成功',
+        status: 'success',
+        position: 'top',
+      })
+      setTimeout(() => {
+        location.reload()
+      }, 1000) 
+    } catch (error) {
+      payOnClose()
+    }
   }, [])
 
   const { isOpen, onOpen, onClose } = useDisclosure()
