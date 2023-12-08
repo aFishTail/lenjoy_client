@@ -27,4 +27,11 @@
 使`getStaticProps``getServerSideProps` return redirect
 
 ## TODO
-- [ ] 支付积分后刷新页面
+- [ ] 支付积分后刷新页面，其他功能同样需要处理
+- [ ] 页面长时间停留，token过期，userInfo未刷新。
+- [ ] 消息模块支持
+- [ ] 签到功能
+- [ ] 页面样式的优化
+- [ ] 富文本编辑器替换（quill.js）
+- [ ] 点赞、收藏、评论
+- [ ] 用户详情
