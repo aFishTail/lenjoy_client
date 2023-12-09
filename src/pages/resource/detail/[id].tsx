@@ -207,8 +207,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     },
     { headers: { authorization: `Bearer ${session.token}` } }
   )
-  console.log('session', session)
-  return {
+    return {
     props: {
       data,
     },

@@ -19,8 +19,7 @@ const uploadImageCallBack = async (file: File) => {
   const formData = new FormData()
   formData.append('file', file)
   const { url } = await FileProvider.uploadArticleImage(formData)
-  // console.log('上传图片', data, { data: { link: data.url } })
-  return { data: { link: url } }
+  //   return { data: { link: url } }
 }
 
 interface Props {

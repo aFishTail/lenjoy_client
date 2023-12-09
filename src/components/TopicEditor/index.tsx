@@ -31,8 +31,7 @@ interface IProps {
 
 const TopicEditor: FC<IProps> = ({id, topic}) => {
   const [content, setContent] = useState(topic?.content)
-  console.log('content', content)
-  const mode: IComponentMode = id ? 'update' : 'create'
+    const mode: IComponentMode = id ? 'update' : 'create'
   const { categories } = useContext(GlobalContext)
 
   const toast = useToast()

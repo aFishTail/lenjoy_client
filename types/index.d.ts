@@ -11,6 +11,7 @@ interface IUser {
   commnetCount: number
   fansCount: number
   followCount: number
+  emailVerified: boolean
 }
 
 interface IFile {

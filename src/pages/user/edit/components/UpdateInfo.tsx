@@ -24,55 +24,33 @@ import { FC, useCallback, useContext } from 'react'
 import * as Yup from 'yup'
 
 interface FormValues {
-  email?: string
   oldPassword?: string
   newPassword?: string
   confirmPassword?: string
 }
 
 interface IProps {
-  type: 'email' | 'password'
   closeModal: () => void
 }
 
-const UpdateInfo: FC<IProps> = ({ type, closeModal }) => {
+const UpdateInfo: FC<IProps> = ({ closeModal }) => {
   const router = useRouter()
   const successToast = useToast({position: 'top', status: 'success'})
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { user, setUser } = useContext(GlobalContext)
-  const initialValues: FormValues =
-    type === 'email'
-      ? {
-          email: user?.email,
-        }
-      : {
+  const initialValues: FormValues = {
           oldPassword: '',
           newPassword: '',
           confirmPassword: '',
         }
-  const validationSchema =
-    type === 'email'
-      ? Yup.object({
-          email: Yup.string().required('邮箱不能为空'),
-        })
-      : Yup.object({
+  const validationSchema = Yup.object({
           oldPassword: Yup.string().required('旧密码不能为空'),
           newPassword: Yup.string().required('新密码不能为空'),
           confirmPassword: Yup.string().required('确认密码不能为空'),
         })
   const handleSubmit = useCallback(
     async (values: FormValues) => {
-      const { email, oldPassword, newPassword, confirmPassword } = values
-      if (type === 'email') {
-        const params = {
-          email,
-        }
-        const user = await UserProvider.updateBasicInfo(params)
-        setUser(user)
-        successToast({
-          title: '邮箱设置成功'
-        })
-      } else {
+      const {  oldPassword, newPassword, confirmPassword } = values
         const params = {
           oldPassword: oldPassword!,
           newPassword: newPassword!,
@@ -85,7 +63,6 @@ const UpdateInfo: FC<IProps> = ({ type, closeModal }) => {
         storage.clearAll()
         setUser(null)
         router.replace('/signin')
-      }
       closeModal()
     },
     [closeModal]
@@ -99,26 +76,6 @@ const UpdateInfo: FC<IProps> = ({ type, closeModal }) => {
     >
       {(formProps: FormikProps<any>) => (
         <Form>
-          {type === 'email' ? (
-            <Field name="email">
-              {({ field, form }) => (
-                <FormControl
-                  display="flex"
-                  py={4}
-                  isInvalid={form.errors.email}
-                >
-                  <FormLabel w={24} textAlign="right" flexShrink={0}>
-                    邮箱
-                  </FormLabel>
-                  <Box>
-                    <Input {...field} type="email" />
-                    <FormErrorMessage>{form.errors.email}</FormErrorMessage>
-                  </Box>
-                </FormControl>
-              )}
-            </Field>
-          ) : (
-            <>
               <Field name="oldPassword">
                 {({ field, form }) => (
                   <FormControl display="flex" py={4} isInvalid={form.errors.oldPassword}>
@@ -158,8 +115,6 @@ const UpdateInfo: FC<IProps> = ({ type, closeModal }) => {
                   </FormControl>
                 )}
               </Field>
-            </>
-          )}
           <Button
             ml={24}
             bg={'green.400'}

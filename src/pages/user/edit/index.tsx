@@ -24,6 +24,7 @@ import {
   ModalHeader,
   ModalOverlay,
   useDisclosure,
+  Badge,
 } from '@chakra-ui/react'
 import { NextPage } from 'next'
 import InfiniteScroll from 'react-infinite-scroller'
@@ -42,8 +43,16 @@ import { UserProvider } from '@/providers/user'
 import { FileProvider } from '@/providers/file'
 import { GlobalContext } from '@/context/global'
 import UpdateInfo from './components/UpdateInfo'
+import { useCountDownWithCache } from '@/hooks/useCountDownWithCache'
+import { UserEmailStatus } from './components/UserEmailStatus'
+import { useRouter } from 'next/router'
 
 type SettingType = 'email' | 'password'
+type PageTab = 'basic' | 'setting'
+const tabMap = {
+  basic:0,
+  setting:1,
+}
 
 interface FormValues {
   nickname: string
@@ -52,8 +61,28 @@ interface FormValues {
 
 const EditUser: NextPage = (props) => {
   const toast = useToast()
-
   const { user, setUser } = useContext(GlobalContext)
+  const [initialFormValues, setInitialFormValues] = useState<FormValues>({
+    nickname: '',
+    description: '',
+  })
+  const [avatar, setAvatar] = useState<string>(user?.avatar)
+  const avatarSrc = useMemo(() => 'http://localhost:3000' + avatar, [avatar])
+  const [settingType, setSettingType] = useState<SettingType>('email')
+  const handleUpdatePassword = useCallback(() => {
+    setSettingType('password')
+    openSettingModal()
+  }, [])
+  const { isOpen, onOpen: openSettingModal, onClose } = useDisclosure()
+  const [tabIndex, setTabIndex] = useState<number>(0)
+  const router = useRouter()
+  const {tab} = router.query
+  const queryTabKey = useMemo(() => router.query.tab, [router.query])
+
+  useEffect(() => {
+    console.log('tab', queryTabKey)
+    setTabIndex(tabMap[queryTabKey as string])
+  }, [queryTabKey])
 
   useEffect(() => {
     setInitialFormValues({
@@ -62,13 +91,6 @@ const EditUser: NextPage = (props) => {
     })
   }, [user])
 
-  const [initialFormValues, setInitialFormValues] = useState<FormValues>({
-    nickname: '',
-    description: '',
-  })
-  const [avatar, setAvatar] = useState<string>(user?.avatar)
-
-  const avatarSrc = useMemo(() => 'http://localhost:3000' + avatar, [avatar])
 
   const handleAvatarChange = async (file: File) => {
     const formData = new FormData()
@@ -77,26 +99,21 @@ const EditUser: NextPage = (props) => {
     setAvatar(url)
   }
 
-  const [settingType, setSettingType] = useState<SettingType>('email')
-
-  const handleUpdateEmail = useCallback(() => {
-    setSettingType('email')
-    openSettingModal()
-  }, [])
-
-  const handleUpdatePassword = useCallback(() => {
-    setSettingType('password')
-    openSettingModal()
-  }, [])
-
-  const { isOpen, onOpen: openSettingModal, onClose } = useDisclosure()
-
+  const handleGoTab = (tab: PageTab) => {
+    router.push({
+      pathname: '/user/edit',
+      query: {
+        tab
+      }
+    })
+  }
+  
   return (
     <Container maxW={'container.lg'} mt={4}>
-      <Tabs bg="white">
+      <Tabs bg="white" index={tabIndex}>
         <TabList>
-          <Tab>个人资料</Tab>
-          <Tab>账号设置</Tab>
+          <Tab onClick={() => handleGoTab('basic')}>个人资料</Tab>
+          <Tab onClick={() => handleGoTab('setting')}>账号设置</Tab>
         </TabList>
         <TabPanels>
           <TabPanel>
@@ -209,13 +226,7 @@ const EditUser: NextPage = (props) => {
                   邮箱
                 </Text>
                 <Text>{user?.email}</Text>
-                <Button
-                  colorScheme={'blue'}
-                  variant="ghost"
-                  onClick={handleUpdateEmail}
-                >
-                  点击设置
-                </Button>
+                <UserEmailStatus user={user}></UserEmailStatus>
               </HStack>
               <HStack>
                 <Text as={'b'} w="24">
@@ -236,10 +247,12 @@ const EditUser: NextPage = (props) => {
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>{settingType === 'email' ? ' 修改邮箱': '修改密码'}</ModalHeader>
-          <ModalCloseButton/>
+          <ModalHeader>
+            {settingType === 'email' ? ' 修改邮箱' : '修改密码'}
+          </ModalHeader>
+          <ModalCloseButton />
           <ModalBody>
-            <UpdateInfo type={settingType} closeModal={onClose}></UpdateInfo>
+            <UpdateInfo closeModal={onClose}></UpdateInfo>
           </ModalBody>
         </ModalContent>
       </Modal>

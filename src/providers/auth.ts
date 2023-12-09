@@ -26,10 +26,14 @@ export class AuthProvider {
     return httpProvider.post('/auth/register', params)
   }
   static async login(params: LoginParams): Promise<IUser> {
-    return httpProvider.post('/api/auth/login', params, {baseURL: '/'})
+    return httpProvider.post('/api/auth/login', params, { baseURL: '/' })
   }
 
   static async logout(): Promise<IUser> {
-    return httpProvider.post('/api/auth/logout', {},{baseURL: '/'})
+    return httpProvider.post('/api/auth/logout', {}, { baseURL: '/' })
+  }
+
+  static async getUserInfo(): Promise<IUser> {
+    return httpProvider.post('/auth/userInfo')
   }
 }

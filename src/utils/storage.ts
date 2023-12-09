@@ -10,7 +10,7 @@ class Storage {
    * @param {*} value
    * @param {*} expire 过期时间，单位为秒
    */
-  setItem(key: string, value: unknown, expire: number) {
+  setItem(key: string, value: unknown, expire?: number) {
     const storage = this.getStroage()
     storage[key] = {
       value: value,

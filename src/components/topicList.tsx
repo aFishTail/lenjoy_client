@@ -19,7 +19,6 @@ export const TopicList = ({topics}: IProps) => {
     const doLike = useCallback((id: string, status: 0 | 1) => {
         UserLikeProvide.doLikeTopic({entityId: id, status})
     }, [])
-    console.log('topicList', topics)
     return (
       <>
       {topics && topics.length > 0 ? 

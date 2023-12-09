@@ -20,8 +20,7 @@ export class ResourceProvider {
   }
 
   static async detail(params: {id: string}, config = {}): Promise<IResource> {
-    console.log('detail', params)
-    return httpProvider.post('/resource/detail', params, config);
+        return httpProvider.post('/resource/detail', params, config);
   }
 
   static async remove(params: {id: string}): Promise<IResource> {

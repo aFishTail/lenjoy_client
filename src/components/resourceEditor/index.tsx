@@ -34,7 +34,6 @@ interface IProps {
 }
 
 const ResourceEditor: FC<IProps> = ({ id, resource }) => {
-  console.log('res', resource)
   const [content, setContent] = useState(resource?.content)
   const mode: IComponentMode = id ? 'update' : 'create'
   const { categories } = useContext(GlobalContext)
@@ -64,7 +63,6 @@ const ResourceEditor: FC<IProps> = ({ id, resource }) => {
           code: Yup.string().max(10, '最长不应该超过10位'),
         })}
         onSubmit={async (values: FormValues, actions) => {
-          console.log('submit', values)
           const { name, url, code, isPublic, score, categoryId } = values
           const params = {
             id,

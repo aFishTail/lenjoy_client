@@ -17,4 +17,20 @@ export class UserProvider {
   }): Promise<IUser> {
     return httpProvider.post('/user/updatePassword', data)
   }
+
+  static async getIsEmailVerified(): Promise<IUser> {
+    return httpProvider.post('/user/getIsEmailVerified')
+  }
+
+  static async sendVerifyEmail(): Promise<IUser> {
+    return httpProvider.post('/email/sendVerifyEmail')
+  }
+
+  static async getDailySignIn(): Promise<boolean> {
+    return httpProvider.post('/user/getDailySignIn')
+  }
+
+  static async dailySignIn(): Promise<IUser> {
+    return httpProvider.post('/user/dailySignIn')
+  }
 }

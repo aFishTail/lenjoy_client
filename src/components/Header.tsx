@@ -19,8 +19,14 @@ import {
   TabList,
   Tab,
   TabIndicator,
+  VStack,
 } from '@chakra-ui/react'
-import { Search2Icon, ChevronDownIcon, AddIcon } from '@chakra-ui/icons'
+import {
+  Search2Icon,
+  ChevronDownIcon,
+  AddIcon,
+  CheckIcon,
+} from '@chakra-ui/icons'
 import { useCallback, useContext, useMemo, useState, useEffect } from 'react'
 import { GlobalContext } from '@/context/global'
 import { useRouter } from 'next/router'
@@ -28,11 +34,14 @@ import storage from '@/utils/storage'
 import { getFullStaticSrc } from '@/utils/helper'
 import { AuthProvider } from '@/providers/auth'
 import { Link } from '@chakra-ui/next-js'
+import { useSignIn } from '@/hooks/features/useSignIn'
 
 export const Header: React.FC = () => {
   const { user, setUser } = useContext(GlobalContext)
   const router = useRouter()
   const toast = useToast()
+
+  const { signStatus, dailySignIn } = useSignIn()
 
   const goLogin = () => {
     router.push('/signin')
@@ -86,7 +95,8 @@ export const Header: React.FC = () => {
   )
 
   const avatar = useMemo(() => getFullStaticSrc(user?.avatar), [user])
-  const [tabIndex, setTabIndex] = useState(0)
+  const [tabIndex, setTabIndex] = useState<number>()
+
   const handleTabChange = (index: number) => {
     setTabIndex(index)
     switch (index) {
@@ -121,19 +131,35 @@ export const Header: React.FC = () => {
       <Container maxW="container.lg">
         <HStack spacing={4}>
           <Box w="120px">
-            <Text cursor="pointer" onClick={handleClickLogo}>乐享</Text>
+            <Text cursor="pointer" onClick={handleClickLogo}>
+              乐享
+            </Text>
           </Box>
           <Box w="600px">
             <Flex justify="space-between">
-              <Tabs
-                variant="unstyled"
-                index={tabIndex}
-                colorScheme="teal"
-              >
+              <Tabs variant="unstyled" index={tabIndex} colorScheme="teal">
                 <TabList>
-                  <Tab onClick={() => {handleTabChange(0)}}>话题</Tab>
-                  <Tab onClick={() => {handleTabChange(1)}}>资源</Tab>
-                  <Tab onClick={() => {handleTabChange(2)}}>悬赏</Tab>
+                  <Tab
+                    onClick={() => {
+                      handleTabChange(0)
+                    }}
+                  >
+                    话题
+                  </Tab>
+                  <Tab
+                    onClick={() => {
+                      handleTabChange(1)
+                    }}
+                  >
+                    资源
+                  </Tab>
+                  <Tab
+                    onClick={() => {
+                      handleTabChange(2)
+                    }}
+                  >
+                    悬赏
+                  </Tab>
                 </TabList>
                 <TabIndicator
                   mt="-1.5px"
@@ -169,27 +195,40 @@ export const Header: React.FC = () => {
               </MenuList>
             </Menu>
             {user ? (
-              <Menu>
-                <MenuButton
-                  as={Button}
-                  leftIcon={
-                    <Avatar name={user?.nickname} size="sm" src={avatar} />
-                  }
-                  bg="white"
-                  variant="line"
-                  _active={{ boxShadow: 'none' }}
-                  _focus={{ boxShadow: 'none' }}
-                  _hover={{ bg: 'gray.50' }}
-                  rightIcon={<ChevronDownIcon />}
-                >
-                  {user.nickname}
-                </MenuButton>
-                <MenuList>
-                  <MenuItem onClick={handleGoUserCenter}>个人中心</MenuItem>
-                  <MenuItem onClick={handleGoEditUser}>编辑资料</MenuItem>
-                  <MenuItem onClick={handleLogout}>退出登录</MenuItem>
-                </MenuList>
-              </Menu>
+              <HStack>
+                <Menu>
+                  <MenuButton
+                    as={Button}
+                    leftIcon={
+                      <Avatar name={user?.nickname} size="sm" src={avatar} />
+                    }
+                    bg="white"
+                    variant="line"
+                    _active={{ boxShadow: 'none' }}
+                    _focus={{ boxShadow: 'none' }}
+                    _hover={{ bg: 'gray.50' }}
+                    rightIcon={<ChevronDownIcon />}
+                  >
+                    {user.nickname}
+                  </MenuButton>
+                  <MenuList>
+                    <MenuItem onClick={handleGoUserCenter}>个人中心</MenuItem>
+                    <MenuItem onClick={handleGoEditUser}>编辑资料</MenuItem>
+                    <MenuItem onClick={handleLogout}>退出登录</MenuItem>
+                  </MenuList>
+                </Menu>
+                <HStack>
+                  {!signStatus ? (
+                    <Button
+                      leftIcon={<CheckIcon></CheckIcon>}
+                      colorScheme={'orange'}
+                      onClick={dailySignIn}
+                    >
+                      签到
+                    </Button>
+                  ) : null}
+                </HStack>
+              </HStack>
             ) : (
               <Button variant="outline" onClick={goLogin}>
                 登录

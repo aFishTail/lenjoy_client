@@ -21,8 +21,7 @@ const ThirdAccountRedirect: NextPage<IProps> = ({code, from}: IProps) => {
             status: 'success',
             position: 'top'
           })
-         console.log('third user:', user)
-        router.push('/')
+                 router.push('/')
     }, [])
 
     useEffect(() => {

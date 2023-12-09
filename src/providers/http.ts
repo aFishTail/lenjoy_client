@@ -3,6 +3,7 @@ import Router from 'next/router'
 import storage from '@/utils/storage'
 import { HttpStatusCode } from '@/constant/status-code'
 import { toast } from '@/utils/toast'
+import { CustomExceptionCodeEnum } from '@/common/constant'
 
 const clearStorageAndRedict = () => {
   const user = storage.clearAll()
@@ -26,8 +27,7 @@ httpProvider.interceptors.request.use(
   (config) => {
     if (typeof window !== 'undefined') {
       const token = storage.getItem('token')
-      console.log('token:', token)
-      if (token) {
+            if (token) {
         config.headers!.Authorization = `Bearer ${token}`
       }
     }
@@ -49,8 +49,7 @@ httpProvider.interceptors.response.use(
     return res.data
   },
   (err) => {
-    console.log('err:', err)
-    if (err && err.response && err.response.status) {
+        if (err && err.response && err.response.status) {
       const status = err.response.status
 
       switch (status) {
@@ -59,10 +58,11 @@ httpProvider.interceptors.response.use(
           typeof window !== 'undefined' && toastErrorMsg('服务器异常')
           break
         case HttpStatusCode.CommonError:
-          toastErrorMsg(err.response.data.message)
+          handleCustomError(err.response)
           break
         case HttpStatusCode.AuthError:
           toastErrorMsg(err.response.data.message)
+          // TODO：使用redux管理全局数据，方便通信
           clearStorageAndRedict()
           break
 
@@ -78,3 +78,21 @@ httpProvider.interceptors.response.use(
     return Promise.reject(err)
   }
 )
+
+// 处理自定义业务错误
+function handleCustomError(response) {
+  console.log('res', response)
+  const {code, message} = response.data
+  switch (code) {
+    case CustomExceptionCodeEnum.EmailNotVerifiedCode:
+      toastErrorMsg("邮箱未认证，请先认证!")
+      setTimeout(() => {
+        Router.push({pathname: '/user/edit', query: {tab: 'setting'}})
+      }, 1000)
+      break;
+  
+    default:
+      toastErrorMsg(message)
+      break;
+  }
+}

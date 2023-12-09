@@ -10,45 +10,63 @@ import App from 'next/app'
 import { CategoryProvider } from '@/providers/category'
 import { ScoreProvider } from '@/providers/score'
 import { ToastContainer } from '@/utils/toast'
+import { AuthProvider } from '@/providers/auth'
+import { UserProvider } from '@/providers/user'
 
-
-export default function MyApp({ Component, pageProps, ...contextValue }: AppProps) {
-  const [user, setUserInfo] = useState<IUser>()
-  const setUser = (user: IUser) => {
-    // TODO: token缓存时间消失，页面未刷新
+export default function MyApp({
+  Component,
+  pageProps,
+  ...contextValue
+}: AppProps) {
+  console.log('app:', pageProps, contextValue)
+  const [user, setUserInfo] = useState<IUser|null>()
+  const setUser = (user: IUser | null) => {
     storage.setItem('user', user, 60 * 60 * 24)
     storage.setItem('token', user?.token, 60 * 60 * 24)
     setUserInfo(user)
   }
-  useEffect(() => {
-    const user = storage.getItem('user')
-    if (user) {
-      setUser(user)
+
+  const refreshUser = async () => {
+    const token = storage.getItem('token')
+    if (token) {
+      const user = await AuthProvider.getUserInfo()
+      setUserInfo(user)
+    } else {
+      setUserInfo(null)
     }
+  }
+  const removeUser = async () => {
+    setUser(null)
+  }
+
+  useEffect(() => {
+    refreshUser()  
   }, [])
   return (
     <GlobalContext.Provider
       value={{
         ...(contextValue as any),
         user: user!,
-        setUser
+        setUser,
+        refreshUser,
+        removeUser
       }}
     >
-    <ChakraProvider>
-      <AppLayout>
-      <Component {...pageProps} />
-      </AppLayout>
-      <ToastContainer></ToastContainer>
-    </ChakraProvider>
+      <ChakraProvider>
+        <AppLayout>
+          <Component {...pageProps} />
+        </AppLayout>
+        <ToastContainer></ToastContainer>
+      </ChakraProvider>
     </GlobalContext.Provider>
   )
 }
 
 MyApp.getInitialProps = async (appContext: any) => {
-  // calls page's `getInitialProps` and fills `appProps.pageProps`
+  console.log('getInitialProps')
   const appProps = await App.getInitialProps(appContext)
   const categories = await CategoryProvider.list()
   const scoreRankList = await ScoreProvider.rank()
-  // const tags = await CategoryProvider.list({})
   return { ...appProps, categories, scoreRankList }
 }
+

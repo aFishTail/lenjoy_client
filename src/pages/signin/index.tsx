@@ -49,7 +49,7 @@ const Category: NextPage = (props) => {
 
   const toast = useToast()
   const router = useRouter()
-  const { setUser } = useContext(GlobalContext)
+  const { setUser, removeUser } = useContext(GlobalContext)
 
   const [captchaId, setCaptchaId] = useState<string>('')
   const [captchaUrl, setCaptchaUrl] = useState<string>('')
@@ -60,6 +60,7 @@ const Category: NextPage = (props) => {
   }, [])
 
   useMount(() => {
+    removeUser()
     getCaptcha()
   })
 

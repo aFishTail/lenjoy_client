@@ -8,6 +8,7 @@ export interface IGlobalContext {
   user: IUser
   setUser: (arg: IUser | null) => void
   removeUser: () => void
+  refreshUser: () => void
 }
 
 export const GlobalContext = React.createContext<IGlobalContext>({
@@ -18,4 +19,5 @@ export const GlobalContext = React.createContext<IGlobalContext>({
   user: null as any,
   setUser: () => {},
   removeUser: () => {},
+  refreshUser: () => {}
 })

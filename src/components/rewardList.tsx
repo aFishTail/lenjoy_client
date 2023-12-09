@@ -25,7 +25,6 @@ interface IProps {
 }
 
 export const RewardList = ({ data }: IProps) => {
-  console.log('data:', data)
   const doLike = useCallback((id: string, status: 0 | 1) => {
     UserLikeProvide.doLikeTopic({ entityId: id, status })
   }, [])
