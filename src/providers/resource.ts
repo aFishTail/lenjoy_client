@@ -11,6 +11,10 @@ export class ResourceProvider {
     return httpProvider.post('/resource/query', params);
   }
 
+  static async listFindOne(params: {id: string}): Promise<ITopic> {
+    return httpProvider.post('/resource/query/findOne', params);
+  }
+
   static async create(params: any): Promise<any> {
     return httpProvider.post('/resource/create', params);
   }

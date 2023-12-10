@@ -43,7 +43,7 @@ interface ITopic {
   createAt: string
   updateAt: string
   user: IUser
-  isLike: 0 | 1
+  isLike?: 0 | 1 | boolean
 }
 
 interface ITag {
@@ -191,6 +191,7 @@ interface IResource {
   category?: ICategory
   user: IUser
   havePayed: boolean
+  isLike?: 0 | 1 | boolean
 }
 
 type IEntityType = 'topic' | 'resource' | 'reward'
@@ -205,9 +206,9 @@ interface IReward {
   commentCount: number
   likeCount: number
   favoriteCount: number
-  score: number
+  score: number | null
   isPublic: boolean
-  status: 'finish'  | "underway"
+  status: 'finish' | 'underway'
   cancelType: string
   deletedTime?: any
   createAt: string
@@ -217,14 +218,15 @@ interface IReward {
   rewardAnswers: IRewardAnswer[]
   category: ICategory
   confirmedRewardAnswer: IRewardAnswer
+  isLike?: 0 | 1 | boolean
 }
 
 interface IRewardAnswer {
-  id: string;
-  content: string;
-  user:IUser;
-  reward:IReward;
-  isConfirmedAnswer: boolean;
+  id: string
+  content: string
+  user: IUser
+  reward: IReward
+  isConfirmedAnswer: boolean
   createAt: string
   updateAt: string
 }

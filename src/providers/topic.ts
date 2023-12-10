@@ -11,6 +11,10 @@ export class TopicProvider {
     return httpProvider.post('/topic/list', params);
   }
 
+  static async listFindOne(params: {id: string}): Promise<ITopic> {
+    return httpProvider.post('/topic/list/findOne', params);
+  }
+
   static async create(params: any): Promise<any> {
     return httpProvider.post('/topic/create', params);
   }

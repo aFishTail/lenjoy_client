@@ -23,7 +23,6 @@ export const UserIntro: React.FC<IProps> = ({ user }) => {
     description,
     score,
     topicCount,
-    commentCount,
     fansCount,
   } = user
   return (
@@ -32,7 +31,6 @@ export const UserIntro: React.FC<IProps> = ({ user }) => {
         <Avatar
           src={getFullStaticSrc(avatar)}
           name={nickname}
-          alt="头像"
           boxSize="50px"
           borderRadius={'50%'}
           m={2}
@@ -58,10 +56,10 @@ export const UserIntro: React.FC<IProps> = ({ user }) => {
             <Text>话题</Text>
             <Text>{topicCount}</Text>
           </VStack>
-          <VStack>
+          {/* <VStack>
             <Text>评论</Text>
             <Text>{commentCount}</Text>
-          </VStack>
+          </VStack> */}
           <VStack>
             <Text>关注</Text>
             <Text>{fansCount}</Text>

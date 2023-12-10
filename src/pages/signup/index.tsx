@@ -45,7 +45,7 @@ const Category: NextPage = (props) => {
   const boxBg = useColorModeValue('white', 'gray.700')
   const toast = useToast()
   const router = useRouter()
-  const {setUser} = useContext(GlobalContext)
+  const { setUser } = useContext(GlobalContext)
   const [captchaId, setCaptchaId] = useState<string>('')
   const [captchaUrl, setCaptchaUrl] = useState<string>('')
   const getCaptcha = useCallback(async () => {
@@ -114,7 +114,7 @@ const Category: NextPage = (props) => {
               toast({
                 title: '注册成功',
                 status: 'success',
-                position: 'top'
+                position: 'top',
               })
               router.replace('/')
             }}
@@ -206,7 +206,12 @@ const Category: NextPage = (props) => {
                     </FormControl>
                   )}
                 </Field>
-                <Stack spacing={10} direction={{ base: 'row' }} align="center" py={4}>
+                <Stack
+                  spacing={10}
+                  direction={{ base: 'row' }}
+                  align="center"
+                  py={4}
+                >
                   <Button
                     bg={'green.400'}
                     color={'white'}
@@ -218,9 +223,9 @@ const Category: NextPage = (props) => {
                   >
                     注册
                   </Button>
-                  <NextLink href="/signin" passHref>
-                    <Link>{'已有帐号？前往登录>>'}</Link>
-                  </NextLink>
+                  <Link as={NextLink} href="/signin">
+                    {'已有帐号？前往登录>>'}
+                  </Link>
                 </Stack>
                 <Stack direction="column">
                   <Stack direction="row" align="center">

@@ -79,7 +79,6 @@ const TopicDetail: NextPage<IProps> = (props) => {
               <Avatar
                 src={getFullStaticSrc(topic.user.avatar)}
                 name={topic.user.nickname}
-                alt="头像"
                 boxSize="50px"
                 borderRadius={'50%'}
                 m={2}

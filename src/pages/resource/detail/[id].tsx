@@ -82,7 +82,6 @@ const ResourceDetail: NextPage<IProps> = (props) => {
               <Avatar
                 src={getFullStaticSrc(resource.user.avatar)}
                 name={resource.user.nickname}
-                alt="头像"
                 boxSize="50px"
                 borderRadius={'50%'}
                 m={2}
@@ -127,7 +126,7 @@ const ResourceDetail: NextPage<IProps> = (props) => {
                 bg="gray.50"
                 borderColor="gray.300"
               >
-                <Text fontSize={'xs'}>{resource.category.name}</Text>
+                <Text fontSize={'xs'}>{resource.category?.name}</Text>
               </Box>
             </HStack>
 

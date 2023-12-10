@@ -16,17 +16,34 @@ interface IProps {
 const Home: NextPage<IProps> = (props) => {
   const [pageNum, setPageNum] = useState(1)
   const [total, setTotal] = useState(props.data.total)
-  const [data, setdata] = useState<IReward[]>(props.data.records)
+  const [data, setData] = useState<IReward[]>(props.data.records)
 
   const loadTopics = useCallback(async (pageNum: number) => {
     const res = await RewardProvider.list({
       pageNum,
       pageSize: PAGE_SIZE,
     })
-    setdata((data) =>[...data, ...res.records])
+    setData((data) =>[...data, ...res.records])
     setPageNum(pageNum)
     setTotal(res.total)
   }, [])
+
+  const handleRefresh = useCallback(
+    async (index) => {
+      const oldVal = data[index]
+      const newVal = await RewardProvider.listFindOne({id: oldVal.id})
+      setData((data) => {
+        return data.map((t, i) => {
+          if (i === index) {
+            return { ...t, ...newVal};
+          }
+          return t;
+        });
+      })
+    },
+    [data]
+  )
+
   return (
     <Box overflow="auto" h="calc(100vh - 200px)">
       <InfiniteScroll
@@ -36,7 +53,7 @@ const Home: NextPage<IProps> = (props) => {
         loader={<div key={0}>加载中...</div>}
         useWindow={false}
       >
-        <RewardList data={data}></RewardList>
+        <RewardList data={data} refresh={handleRefresh}></RewardList>
       </InfiniteScroll>
     </Box>
   )

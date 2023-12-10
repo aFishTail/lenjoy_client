@@ -12,6 +12,10 @@ export class RewardProvider {
     return httpProvider.post('/reward/query', params);
   }
 
+  static async listFindOne(params: {id: string}): Promise<IReward> {
+    return httpProvider.post('/reward/query/findOne', params);
+  }
+
   static async create(params: any): Promise<any> {
     return httpProvider.post('/reward/create', params);
   }

@@ -20,10 +20,27 @@ const Home: NextPage<IProps> = (props) => {
       pageNum,
       pageSize: PAGE_SIZE,
     })
-    setTopics((topics) =>[...topics, ...res.records])
+    setTopics((topics) => [...topics, ...res.records])
     setPageNum(pageNum)
     setTotal(res.total)
   }, [])
+
+  const handleRefresh = useCallback(
+    async (index) => {
+      const oldVal = topics[index]
+      const newVal = await TopicProvider.listFindOne({id: oldVal.id})
+      setTopics((topics) => {
+        return topics.map((t, i) => {
+          if (i === index) {
+            return { ...t, ...newVal};
+          }
+          return t;
+        });
+      })
+    },
+    [topics]
+  )
+
   return (
     <Box overflow="auto" h="calc(100vh - 200px)">
       <InfiniteScroll
@@ -33,7 +50,7 @@ const Home: NextPage<IProps> = (props) => {
         loader={<div key={0}>加载中...</div>}
         useWindow={false}
       >
-        <TopicList topics={topics}></TopicList>
+        <TopicList topics={topics} refresh={handleRefresh}></TopicList>
       </InfiniteScroll>
     </Box>
   )

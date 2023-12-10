@@ -50,7 +50,7 @@ const RewardEditor: FC<IProps> = ({ id, reward }) => {
           title: (reward?.title as string) || '',
           content: reward?.content || '',
           isPublic: reward?.isPublic ?? true,
-          score: reward?.score || '',
+          score: reward?.score || null,
           categoryId: reward?.category?.id || '',
         }}
         validationSchema={Yup.object({

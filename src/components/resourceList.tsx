@@ -22,45 +22,55 @@ import Link from 'next/link'
 
 interface IProps {
   data: IResource[]
+  refresh: (index: number) => void
 }
 
-export const ResourceList = ({ data }: IProps) => {
-
-  const doLike = useCallback((id: string, status: 0 | 1) => {
-    UserLikeProvide.doLikeTopic({ entityId: id, status })
-  }, [])
+export const ResourceList = ({ data, refresh }: IProps) => {
+  const doLike = useCallback(
+    async (index: number, item: IResource) => {
+      const id = item.id
+      const status = item.isLike ? 0 : 1
+      await UserLikeProvide.doLikeTopic({
+        entityType: 'resource',
+        entityId: id,
+        status,
+      })
+      refresh(index)
+    },
+    [refresh]
+  )
 
   return (
     <>
       {data && data.length > 0 ? (
         <List w="100%">
-          {data.map((item) => (
+          {data.map((item, index) => (
             <ListItem key={item.id}>
-              <Link href={`/resource/detail/${item.id}`}>
-                <HStack
-                  bg="white"
-                  mb={3}
-                  p={3}
-                  cursor="pointer"
-                  align="start"
-                  borderRadius="base"
-                >
-                  <VStack flex={1} align="start">
-                    <HStack width={'100%'}>
-                      <Avatar
-                        name={item.user.nickname}
-                        size="sm"
-                        src={getFullStaticSrc(item.user.avatar)}
-                      />
-                      <HStack justify="space-between" w="100%">
-                        <Text color="gray.600" fontWeight="medium">
-                          {item.user.nickname}
-                        </Text>
-                        <Text color="gray.500" fontSize="xs">
-                          {dayjs(item.createAt).fromNow()}
-                        </Text>
-                      </HStack>
+              <HStack
+                bg="white"
+                mb={3}
+                p={3}
+                cursor="pointer"
+                align="start"
+                borderRadius="base"
+              >
+                <VStack flex={1} align="start">
+                  <HStack width={'100%'}>
+                    <Avatar
+                      name={item.user.nickname}
+                      size="xs"
+                      src={getFullStaticSrc(item.user.avatar)}
+                    />
+                    <HStack justify="space-between" w="100%">
+                      <Text color="gray.600" fontWeight="medium">
+                        {item.user.nickname}
+                      </Text>
+                      <Text color="gray.500" fontSize="xs">
+                        {dayjs(item.createAt).fromNow()}
+                      </Text>
                     </HStack>
+                  </HStack>
+                  <Link href={`/resource/detail/${item.id}`}>
                     <Flex w="100%">
                       <Badge
                         mr="1"
@@ -72,45 +82,46 @@ export const ResourceList = ({ data }: IProps) => {
                         {item.name}
                       </Text>
                     </Flex>
-                    <Flex
-                      justify="space-between"
-                      fontSize="xs"
-                      color="gray.500"
-                      w="100%"
-                    >
-                      <Flex align="center">
-                        <Icon as={AiFillLike}></Icon>
-                        <Text
-                          ml={1}
-                          mr={4}
-                          onClick={() => {
-                            doLike(item.id, (item as any).isLike ? 0 : 1)
-                          }}
-                        >
-                          赞 {item.likeCount}
-                        </Text>
-                        <Icon as={BiCommentDetail}></Icon>
-                        <Text ml={1} mr={4}>
-                          评论{item.commentCount}
-                        </Text>
-                        <Icon as={MdCalendarViewWeek}></Icon>
-                        <Text ml={1}>浏览{item.viewCount}</Text>
-                      </Flex>
-                      {item.category?.name && (
-                        <Text
-                          bg="gray.50"
-                          border="1px"
-                          borderColor="gray.200"
-                          borderRadius="xl"
-                          px={2}
-                        >
-                          {item.category?.name}
-                        </Text>
-                      )}
+                  </Link>
+                  <Flex
+                    justify="space-between"
+                    fontSize="xs"
+                    color="gray.500"
+                    w="100%"
+                  >
+                    <Flex align="center">
+                      <Icon as={AiFillLike} color={item.isLike ? 'orange' : 'inherit'}></Icon>
+                      <Text
+                        ml={1}
+                        mr={4}
+                        color={item.isLike ? 'orange' : 'inherit'}
+                        onClick={() => {
+                          doLike(index, item)
+                        }}
+                      >
+                        赞 {item.likeCount}
+                      </Text>
+                      <Icon as={BiCommentDetail}></Icon>
+                      <Text ml={1} mr={4}>
+                        评论{item.commentCount}
+                      </Text>
+                      <Icon as={MdCalendarViewWeek}></Icon>
+                      <Text ml={1}>浏览{item.viewCount}</Text>
                     </Flex>
-                  </VStack>
-                </HStack>
-              </Link>
+                    {item.category?.name && (
+                      <Text
+                        bg="gray.50"
+                        border="1px"
+                        borderColor="gray.200"
+                        borderRadius="xl"
+                        px={2}
+                      >
+                        {item.category?.name}
+                      </Text>
+                    )}
+                  </Flex>
+                </VStack>
+              </HStack>
             </ListItem>
           ))}
         </List>

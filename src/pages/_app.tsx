@@ -18,7 +18,6 @@ export default function MyApp({
   pageProps,
   ...contextValue
 }: AppProps) {
-  console.log('app:', pageProps, contextValue)
   const [user, setUserInfo] = useState<IUser|null>()
   const setUser = (user: IUser | null) => {
     storage.setItem('user', user, 60 * 60 * 24)
