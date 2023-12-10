@@ -1,4 +1,4 @@
-import IEditor from '@/components/Editor'
+import IEditor from '@/components/Editor/index'
 import {
   Box,
   Button,

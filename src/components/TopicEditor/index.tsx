@@ -1,5 +1,5 @@
 import { NextPage } from 'next'
-import IEditor from '@/components/Editor'
+import IEditor from '@/components/Editor/index'
 import {
   Box,
   Button,

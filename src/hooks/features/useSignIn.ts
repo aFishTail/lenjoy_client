@@ -4,7 +4,7 @@ import { useToast } from '@chakra-ui/react'
 import { useCallback, useContext, useEffect, useState } from 'react'
 
 export function useSignIn() {
-  const [signStatus, setSignStatus] = useState(false)
+  const [signStatus, setSignStatus] = useState(true)
   const { user, refreshUser } = useContext(GlobalContext)
   const toast = useToast()
 
@@ -15,9 +15,11 @@ export function useSignIn() {
 
   const dailySignIn = useCallback(async () => {
     try {
-      await UserProvider.dailySignIn()
-      toast({ title: '签到成功', position: 'top', status: 'success' })
-      setSignStatus(true)
+      const {score} = await UserProvider.dailySignIn()
+      toast({ title: `签到成功，获得${score}积分`, position: 'top', status: 'success' })
+      setTimeout(() => {
+        location.reload()
+      }, 1000)
     } catch (error) {
       setSignStatus(false)
     }
