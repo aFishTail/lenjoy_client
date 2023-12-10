@@ -101,10 +101,11 @@ export const RewardList = ({ data, refresh }: IProps) => {
                     w="100%"
                   >
                     <Flex align="center">
-                      <Icon as={AiFillLike}></Icon>
+                      <Icon as={AiFillLike} color={item.isLike ? 'orange' : 'inherit'}></Icon>
                       <Text
                         ml={1}
                         mr={4}
+                        color={item.isLike ? 'orange' : 'inherit'}
                         onClick={() => {
                           doLike(index, item)
                         }}
