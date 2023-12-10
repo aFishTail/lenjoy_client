@@ -5,7 +5,7 @@ import { useCallback, useContext, useEffect, useState } from 'react'
 
 export function useSignIn() {
   const [signStatus, setSignStatus] = useState(false)
-  const {refreshUser} = useContext(GlobalContext)
+  const { user, refreshUser } = useContext(GlobalContext)
   const toast = useToast()
 
   const getSignInStatus = useCallback(async () => {
@@ -14,15 +14,21 @@ export function useSignIn() {
   }, [])
 
   const dailySignIn = useCallback(async () => {
-    await UserProvider.dailySignIn()
-    toast({title: '签到成功', position: 'top', status: 'success'})
-    setSignStatus(true)
+    try {
+      await UserProvider.dailySignIn()
+      toast({ title: '签到成功', position: 'top', status: 'success' })
+      setSignStatus(true)
+    } catch (error) {
+      setSignStatus(false)
+    }
     refreshUser()
   }, [])
 
   useEffect(() => {
-    getSignInStatus()
-  }, [])
+    if (user) {
+      getSignInStatus()
+    }
+  }, [user, getSignInStatus])
 
   return {
     signStatus,

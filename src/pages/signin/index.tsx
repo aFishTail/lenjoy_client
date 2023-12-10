@@ -185,9 +185,7 @@ const Category: NextPage = (props) => {
                   >
                     登录
                   </Button>
-                  <NextLink href="/signup" passHref>
-                    <Link>{'没有帐号？点击这里去注册>>'}</Link>
-                  </NextLink>
+                    <Link as={NextLink} href='/signup'>{'没有帐号？点击这里去注册>>'}</Link>
                 </Stack>
                 <Stack direction="column">
                   <Stack direction="row" align="center">
