@@ -5,6 +5,8 @@ import { ResourceList } from '@/components/resourceList'
 // import { PAGE_SIZE } from '@/common/constant'
 import { ResourceProvider } from '@/providers/resource'
 import { useCallback, useState } from 'react'
+import { getIronSession } from 'iron-session'
+import { SessionData, sessionOptions } from '@/lib/session'
 
 const PAGE_SIZE = 8
 interface IProps {
@@ -60,10 +62,15 @@ const Home: NextPage<IProps> = (props) => {
 export default Home
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
+  const session = await getIronSession<SessionData>(
+    context.req,
+    context.res,
+    sessionOptions
+  )
   const data = await ResourceProvider.list({
     pageSize: PAGE_SIZE,
     pageNum: 1,
-  })
+  }, {headers: { authorization: `Bearer ${session.token}` }})
   return {
     props: {
       data,

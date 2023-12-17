@@ -4,11 +4,11 @@ export class TopicProvider {
     /**
    * 获取所有帖子
    */
-  static async list(params: any): Promise<PagerList<ITopic>> {
+  static async list(params: any, config): Promise<PagerList<ITopic>> {
     if(params.categoryLabel === 'all') {
       params.categoryLabel = ''
     }
-    return httpProvider.post('/topic/list', params);
+    return httpProvider.post('/topic/list', params, config);
   }
 
   static async listFindOne(params: {id: string}): Promise<ITopic> {

@@ -5,11 +5,11 @@ export class RewardProvider {
     /**
    * 获取所有帖子
    */
-  static async list(params: any): Promise<PagerList<IReward>> {
+  static async list(params: any, config): Promise<PagerList<IReward>> {
     if(params.categoryLabel === 'all') {
       params.categoryLabel = ''
     }
-    return httpProvider.post('/reward/query', params);
+    return httpProvider.post('/reward/query', params, config);
   }
 
   static async listFindOne(params: {id: string}): Promise<IReward> {

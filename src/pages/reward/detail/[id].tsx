@@ -210,7 +210,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     context.res,
     sessionOptions
   )
-  console.log('session:', session)
   const id = context.query.id as string
   const data = await RewardProvider.detail(
     {

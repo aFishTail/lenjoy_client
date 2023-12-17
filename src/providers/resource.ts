@@ -4,11 +4,11 @@ export class ResourceProvider {
     /**
    * 获取所有帖子
    */
-  static async list(params: any): Promise<PagerList<IResource>> {
+  static async list(params: any, config): Promise<PagerList<IResource>> {
     if(params.categoryLabel === 'all') {
       params.categoryLabel = ''
     }
-    return httpProvider.post('/resource/query', params);
+    return httpProvider.post('/resource/query', params, config);
   }
 
   static async listFindOne(params: {id: string}): Promise<ITopic> {

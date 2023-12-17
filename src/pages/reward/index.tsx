@@ -7,6 +7,8 @@ import { ResourceProvider } from '@/providers/resource'
 import { useCallback, useState } from 'react'
 import { RewardList } from '@/components/rewardList'
 import { RewardProvider } from '@/providers/reward'
+import { SessionData, sessionOptions } from '@/lib/session'
+import { getIronSession } from 'iron-session'
 
 const PAGE_SIZE = 8
 interface IProps {
@@ -23,7 +25,7 @@ const Home: NextPage<IProps> = (props) => {
       pageNum,
       pageSize: PAGE_SIZE,
     })
-    setData((data) =>[...data, ...res.records])
+    setData((data) => [...data, ...res.records])
     setPageNum(pageNum)
     setTotal(res.total)
   }, [])
@@ -31,14 +33,14 @@ const Home: NextPage<IProps> = (props) => {
   const handleRefresh = useCallback(
     async (index) => {
       const oldVal = data[index]
-      const newVal = await RewardProvider.listFindOne({id: oldVal.id})
+      const newVal = await RewardProvider.listFindOne({ id: oldVal.id })
       setData((data) => {
         return data.map((t, i) => {
           if (i === index) {
-            return { ...t, ...newVal};
+            return { ...t, ...newVal }
           }
-          return t;
-        });
+          return t
+        })
       })
     },
     [data]
@@ -62,10 +64,18 @@ const Home: NextPage<IProps> = (props) => {
 export default Home
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const data = await RewardProvider.list({
-    pageSize: PAGE_SIZE,
-    pageNum: 1,
-  })
+  const session = await getIronSession<SessionData>(
+    context.req,
+    context.res,
+    sessionOptions
+  )
+  const data = await RewardProvider.list(
+    {
+      pageSize: PAGE_SIZE,
+      pageNum: 1,
+    },
+    { headers: { authorization: `Bearer ${session.token}` } }
+  )
   return {
     props: {
       data,

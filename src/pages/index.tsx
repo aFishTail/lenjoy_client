@@ -4,6 +4,8 @@ import InfiniteScroll from 'react-infinite-scroller'
 import { TopicList } from '@/components/topicList'
 import { TopicProvider } from '@/providers/topic'
 import { useCallback, useState } from 'react'
+import { SessionData, sessionOptions } from '@/lib/session'
+import { getIronSession } from 'iron-session'
 
 const PAGE_SIZE = 8
 interface IProps {
@@ -59,10 +61,15 @@ const Home: NextPage<IProps> = (props) => {
 export default Home
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
+  const session = await getIronSession<SessionData>(
+    context.req,
+    context.res,
+    sessionOptions
+  )
   const data = await TopicProvider.list({
     pageSize: PAGE_SIZE,
     pageNum: 1,
-  })
+  }, {headers: { authorization: `Bearer ${session.token}` }})
   return {
     props: {
       data,
