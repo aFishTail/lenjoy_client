@@ -18,6 +18,7 @@ import { MdCalendarViewWeek } from 'react-icons/md'
 import { getFullStaticSrc } from '@/utils/helper'
 import dayjs from 'dayjs'
 import Link from 'next/link'
+import { DoLike } from './DoLike'
 
 interface IProps {
   topics: ITopic[]
@@ -25,19 +26,6 @@ interface IProps {
 }
 
 export const TopicList = ({ topics, refresh }: IProps) => {
-  const doLike = useCallback(
-    async (index: number, item: ITopic) => {
-      const id = item.id
-      const status = item.isLike ? 0 : 1
-      await UserLikeProvide.doLikeTopic({
-        entityType: 'topic',
-        entityId: id,
-        status,
-      })
-      refresh(index)
-    },
-    [refresh]
-  )
   return (
     <>
       {topics && topics.length > 0 ? (
@@ -48,7 +36,6 @@ export const TopicList = ({ topics, refresh }: IProps) => {
                 bg="white"
                 mb={3}
                 p={3}
-                cursor="pointer"
                 align="start"
                 borderRadius="base"
               >
@@ -86,20 +73,12 @@ export const TopicList = ({ topics, refresh }: IProps) => {
                     w="100%"
                   >
                     <Flex align="center">
-                      <Icon
-                        color={item.isLike ? 'orange' : 'inherit'}
-                        as={AiFillLike}
-                      ></Icon>
-                      <Text
-                        ml={1}
-                        mr={4}
-                        color={item.isLike ? 'orange' : 'inherit'}
-                        onClick={() => {
-                          doLike(index, item)
-                        }}
-                      >
-                        赞 {item.likeCount}
-                      </Text>
+                    <DoLike
+                        entityType="topic"
+                        refresh={refresh}
+                        item={item}
+                        index={index}
+                      ></DoLike>
                       <Icon as={BiCommentDetail}></Icon>
                       <Text ml={1} mr={4}>
                         评论{item.commentCount}

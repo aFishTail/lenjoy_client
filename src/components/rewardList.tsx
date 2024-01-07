@@ -19,6 +19,7 @@ import { MdCalendarViewWeek } from 'react-icons/md'
 import { getFullStaticSrc } from '@/utils/helper'
 import dayjs from 'dayjs'
 import Link from 'next/link'
+import { DoLike } from './DoLike'
 
 interface IProps {
   data: IReward[]
@@ -26,17 +27,6 @@ interface IProps {
 }
 
 export const RewardList = ({ data, refresh }: IProps) => {
-  const doLike = useCallback(async (index: number, item: IReward) => {
-    const id = item.id
-    const status = item.isLike ? 0 : 1
-    await UserLikeProvide.doLikeTopic({
-      entityType: 'reward',
-      entityId: id,
-      status,
-    })
-    refresh(index)
-  }, [refresh])
-
   return (
     <>
       {data && data.length > 0 ? (
@@ -47,7 +37,6 @@ export const RewardList = ({ data, refresh }: IProps) => {
                 bg="white"
                 mb={3}
                 p={3}
-                cursor="pointer"
                 align="start"
                 borderRadius="base"
               >
@@ -101,17 +90,12 @@ export const RewardList = ({ data, refresh }: IProps) => {
                     w="100%"
                   >
                     <Flex align="center">
-                      <Icon as={AiFillLike} color={item.isLike ? 'orange' : 'inherit'}></Icon>
-                      <Text
-                        ml={1}
-                        mr={4}
-                        color={item.isLike ? 'orange' : 'inherit'}
-                        onClick={() => {
-                          doLike(index, item)
-                        }}
-                      >
-                        赞 {item.likeCount}
-                      </Text>
+                      <DoLike
+                        entityType="reward"
+                        refresh={refresh}
+                        item={item}
+                        index={index}
+                      ></DoLike>
                       <Icon as={BiCommentDetail}></Icon>
                       <Text ml={1} mr={4}>
                         评论{item.commentCount}
