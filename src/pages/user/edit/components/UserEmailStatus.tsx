@@ -6,8 +6,7 @@ import { FC, useCallback } from 'react'
 interface IProps {
   user: IUser
 }
-
-export const UserEmailStatus: FC<IProps> = ({ user }) => {
+ const UserEmailStatus: FC<IProps> = ({ user }) => {
   const toast = useToast()
 
   const {
@@ -48,3 +47,5 @@ export const UserEmailStatus: FC<IProps> = ({ user }) => {
     </HStack>
   )
 }
+
+export default UserEmailStatus
