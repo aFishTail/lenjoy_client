@@ -1,5 +1,6 @@
 import { GlobalContext } from '@/context/global'
 import { UserProvider } from '@/providers/user'
+import storage from '@/utils/storage'
 import { useToast } from '@chakra-ui/react'
 import { useCallback, useContext, useEffect, useState } from 'react'
 
@@ -9,6 +10,7 @@ export function useSignIn() {
   const toast = useToast()
 
   const getSignInStatus = useCallback(async () => {
+    console.log('token:', storage.getItem('token'))
     const status = await UserProvider.getDailySignIn()
     setSignStatus(status)
   }, [])

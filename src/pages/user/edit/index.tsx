@@ -44,7 +44,7 @@ import { FileProvider } from '@/providers/file'
 import { GlobalContext } from '@/context/global'
 import UpdateInfo from './components/UpdateInfo'
 import { useCountDownWithCache } from '@/hooks/useCountDownWithCache'
-import { UserEmailStatus } from './components/UserEmailStatus'
+import UserEmailStatus from './components/UserEmailStatus'
 import { useRouter } from 'next/router'
 
 type SettingType = 'email' | 'password'
