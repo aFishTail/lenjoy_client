@@ -109,7 +109,7 @@ export const ResourceLinkViewer: React.FC<IProps> = ({ data }) => {
                     {url}
                   </Link>
                 </Text>
-                <Text>链接：{code}</Text>
+                <Text>密码{code}</Text>
               </VStack>
             </AlertDialogBody>
           </AlertDialogContent>
