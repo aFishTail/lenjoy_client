@@ -1,18 +1,16 @@
 import { GlobalContext } from '@/context/global'
 import { Box, Divider, List, ListItem, Text } from '@chakra-ui/react'
 import { Global } from '@emotion/react'
-import { useContext } from 'react'
+import { useContext, useMemo } from 'react'
 import { Link } from '@chakra-ui/next-js'
+import { useRouter } from 'next/router'
 
 export const Category: React.FC = () => {
   const { categories } = useContext(GlobalContext)
+  const route = useRouter()
+  const categoryQuery = useMemo(() => route.query.category, [route.query])
   return (
     <Box w="100px" h='fit-content' bg="white">
-      {/* <Link href={`/category/all`}>
-      <Text textAlign="center" py={3}>
-        全部
-      </Text>
-      </Link> */}
       <List
         spacing={2}
         py={2}
@@ -25,11 +23,12 @@ export const Category: React.FC = () => {
             textAlign="center"
             cursor="pointer"
             _hover={{ bg: 'gray.50' }}
+            bg={categoryQuery == null || categoryQuery === 'all' ? 'gray.200' : null}
             py={2}
             mx={2}
             borderRadius="sm"
           >
-            <Link key={'all'} href={`/category/${'all'}`}>
+            <Link key={'all'} href={`${route.pathname}?category=${'all'}`}>
               {'全部'}
             </Link>
           </ListItem>
@@ -40,11 +39,12 @@ export const Category: React.FC = () => {
             textAlign="center"
             cursor="pointer"
             _hover={{ bg: 'gray.50' }}
+            bg={categoryQuery === item.label ? 'gray.200' : null}
             py={2}
             mx={2}
             borderRadius="sm"
           >
-            <Link key={item.id} href={`/category/${item.label || 'all'}`}>
+            <Link key={item.id} href={`${route.pathname}?category=${item.label}`}>
               {item.name}
             </Link>
           </ListItem>

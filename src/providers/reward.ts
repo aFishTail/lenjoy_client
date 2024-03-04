@@ -5,7 +5,7 @@ export class RewardProvider {
     /**
    * 获取所有帖子
    */
-  static async list(params: any, config): Promise<PagerList<IReward>> {
+  static async list(params: any, config = {}): Promise<PagerList<IReward>> {
     if(params.categoryLabel === 'all') {
       params.categoryLabel = ''
     }

@@ -4,11 +4,12 @@ import InfiniteScroll from 'react-infinite-scroller'
 import { ResourceList } from '@/components/resourceList'
 // import { PAGE_SIZE } from '@/common/constant'
 import { ResourceProvider } from '@/providers/resource'
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { RewardList } from '@/components/rewardList'
 import { RewardProvider } from '@/providers/reward'
 import { SessionData, sessionOptions } from '@/lib/session'
 import { getIronSession } from 'iron-session'
+import { useRouter } from 'next/router'
 
 const PAGE_SIZE = 8
 interface IProps {
@@ -19,6 +20,23 @@ const Home: NextPage<IProps> = (props) => {
   const [pageNum, setPageNum] = useState(1)
   const [total, setTotal] = useState(props.data.total)
   const [data, setData] = useState<IReward[]>(props.data.records)
+
+  const router = useRouter()
+  const { query } = router
+
+  const initData = useCallback(async () => {
+    const res = await RewardProvider.list({
+      pageNum: 1,
+      pageSize: PAGE_SIZE,
+      categoryLabel: query.category,
+    })
+    setData(res.records)
+    setTotal(res.total)
+  }, [query.category])
+
+  useEffect(() => {
+    initData()
+  }, [query.category])
 
   const loadTopics = useCallback(async (pageNum: number) => {
     const res = await RewardProvider.list({
@@ -73,6 +91,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     {
       pageSize: PAGE_SIZE,
       pageNum: 1,
+      categoryLabel: context.query.category,
     },
     { headers: { authorization: `Bearer ${session.token}` } }
   )

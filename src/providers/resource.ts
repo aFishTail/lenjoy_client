@@ -4,7 +4,7 @@ export class ResourceProvider {
     /**
    * 获取所有帖子
    */
-  static async list(params: any, config): Promise<PagerList<IResource>> {
+  static async list(params: any, config = {}): Promise<PagerList<IResource>> {
     if(params.categoryLabel === 'all') {
       params.categoryLabel = ''
     }
