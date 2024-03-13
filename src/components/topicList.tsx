@@ -1,4 +1,4 @@
-import { UserLikeProvide } from '@/providers/user-like'
+import { UserLikeProvide } from "@/providers/user-like";
 import {
   Flex,
   HStack,
@@ -10,36 +10,29 @@ import {
   Image,
   Box,
   Avatar,
-} from '@chakra-ui/react'
-import { useCallback } from 'react'
-import { AiFillLike } from 'react-icons/ai'
-import { BiCommentDetail } from 'react-icons/bi'
-import { MdCalendarViewWeek } from 'react-icons/md'
-import { getFullStaticSrc } from '@/utils/helper'
-import dayjs from 'dayjs'
-import Link from 'next/link'
-import { DoLike } from './DoLike'
+} from "@chakra-ui/react";
+import { useCallback } from "react";
+import { AiFillLike } from "react-icons/ai";
+import { BiCommentDetail } from "react-icons/bi";
+import { MdCalendarViewWeek } from "react-icons/md";
+import { getFullStaticSrc } from "@/utils/helper";
+import dayjs from "dayjs";
+import Link from "next/link";
+import { DoLike } from "./DoLike";
 
 interface IProps {
-  topics: ITopic[]
-  refresh: (index: number) => void
+  topics: ITopic[];
+  refresh: (index: number) => void;
 }
 
 export const TopicList = ({ topics, refresh }: IProps) => {
-  console.log('tipics:', topics)
   return (
     <>
       {topics && topics.length > 0 ? (
         <List w="100%">
           {topics.map((item, index) => (
             <ListItem key={item.id}>
-              <HStack
-                bg="white"
-                mb={3}
-                p={3}
-                align="start"
-                borderRadius="base"
-              >
+              <HStack bg="white" mb={3} p={3} align="start" borderRadius="base">
                 <VStack flex={1} align="start">
                   <HStack w="100%">
                     <Avatar
@@ -58,7 +51,7 @@ export const TopicList = ({ topics, refresh }: IProps) => {
                   </HStack>
                   <Link
                     href={`/topic/detail/${item.id}`}
-                    style={{ width: '100%' }}
+                    style={{ width: "100%" }}
                   >
                     <Text color="gray.800" fontWeight="medium" fontSize="md">
                       {item.title}
@@ -74,7 +67,7 @@ export const TopicList = ({ topics, refresh }: IProps) => {
                     w="100%"
                   >
                     <Flex align="center">
-                    <DoLike
+                      <DoLike
                         entityType="topic"
                         refresh={refresh}
                         item={item}
@@ -107,13 +100,13 @@ export const TopicList = ({ topics, refresh }: IProps) => {
           w="100%"
           h={24}
           justify="center"
-          alignItems={'center'}
+          alignItems={"center"}
           bg="white"
           shadow="xs"
         >
-          <Text color={'gray.500'}>抱歉，暂无数据</Text>
+          <Text color={"gray.500"}>抱歉，暂无数据</Text>
         </Flex>
       )}
     </>
-  )
-}
+  );
+};

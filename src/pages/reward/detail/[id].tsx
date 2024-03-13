@@ -41,6 +41,7 @@ import { RewardProvider } from '@/providers/reward'
 import { SessionData, sessionOptions } from '@/lib/session'
 import { getIronSession } from 'iron-session'
 import { RewardComment } from '@/components/rewardComment'
+import Head from "next/head";
 
 interface IProps {
   data: IReward
@@ -75,6 +76,13 @@ const RewardDetail: NextPage<IProps> = (props) => {
   const cancelRef = useRef<any>()
 
   return (
+    <>
+    <Head>
+        <title>{`${topic.title} - 乐享`}</title>
+        <meta name="keywords" content={topic.title} />
+        <meta name="description" content={topic.title} />
+      </Head>
+    </>
     <Container maxW="container.lg" bg="gray.100" my="4">
       <Flex justify="space-between">
         <Box flex={1} mx={4}>
