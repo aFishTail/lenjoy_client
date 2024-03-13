@@ -20,5 +20,4 @@ jobs:
           username: ${{ secrets.SSH_USER_NAME }}
           key: ${{secrets.SSH_KEY}}
           script: |
-            cd ~/work/lenjoy_client && yarn build && pm2 restart client
-        # ...deployment-specific steps
+            cd ~/work/lenjoy_client && git pull && yarn && yarn build && pm2 restart client
