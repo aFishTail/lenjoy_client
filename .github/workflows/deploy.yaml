@@ -18,6 +18,7 @@ jobs:
           username: ${{ secrets.SSH_USER_NAME }}
           key: ${{secrets.SSH_KEY}}
           script: |
-            PATH=$PATH:/${{secrets.SSH_USER_NAME}}/.npm-global/bin
+            PATH=$PATH:/${{secrets.SSH_USER_NAME}}/usr/local/bin
+            echo $PATH
             pm2 -v
         # ...deployment-specific steps
