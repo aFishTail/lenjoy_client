@@ -4,7 +4,7 @@ export class TopicProvider {
     /**
    * 获取所有帖子
    */
-  static async list(params: any, config): Promise<PagerList<ITopic>> {
+  static async list(params: any, config = {}): Promise<PagerList<ITopic>> {
     if(params.categoryLabel === 'all') {
       params.categoryLabel = ''
     }

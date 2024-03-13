@@ -7,6 +7,8 @@ import { useCallback, useEffect, useState } from 'react'
 import { SessionData, sessionOptions } from '@/lib/session'
 import { getIronSession } from 'iron-session'
 import { useRouter } from 'next/router'
+import { NextSeo } from 'next-seo'
+import Head from 'next/head'
 
 const PAGE_SIZE = 8
 interface IProps {
@@ -63,6 +65,17 @@ const Home: NextPage<IProps> = (props) => {
   )
 
   return (
+    <>
+    <NextSeo
+      title="乐享社区"
+      keywords="网盘小站,网盘资源,电影网盘,阿里云盘资源,夸克网盘资源,迅雷网盘资源"
+      description=""
+    />
+    <Head>
+    <title>乐享</title>
+    <meta name='keywords' content="乐享，乐享社区，资源分享，网盘资源，悬赏" />
+    <meta name='description' content='乐享，话题' />
+  </Head>
     <Box overflow="auto" h="calc(100vh - 200px)">
       <InfiniteScroll
         pageStart={1}
@@ -74,6 +87,7 @@ const Home: NextPage<IProps> = (props) => {
         <TopicList topics={topics} refresh={handleRefresh}></TopicList>
       </InfiniteScroll>
     </Box>
+    </>
   )
 }
 

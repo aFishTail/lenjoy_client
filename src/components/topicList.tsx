@@ -26,6 +26,7 @@ interface IProps {
 }
 
 export const TopicList = ({ topics, refresh }: IProps) => {
+  console.log('tipics:', topics)
   return (
     <>
       {topics && topics.length > 0 ? (

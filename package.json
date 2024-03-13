@@ -27,6 +27,7 @@
     "framer-motion": "^10.16.5",
     "iron-session": "^8.0.1",
     "next": "14.0.3",
+    "next-seo": "^6.5.0",
     "react": "^18",
     "react-dom": "^18",
     "react-draft-wysiwyg": "^1.15.0",
