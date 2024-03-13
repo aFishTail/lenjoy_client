@@ -78,11 +78,10 @@ const RewardDetail: NextPage<IProps> = (props) => {
   return (
     <>
     <Head>
-        <title>{`${topic.title} - 乐享`}</title>
-        <meta name="keywords" content={topic.title} />
-        <meta name="description" content={topic.title} />
+        <title>{`${data.title} - 乐享`}</title>
+        <meta name="keywords" content={data.title} />
+        <meta name="description" content={data.title} />
       </Head>
-    </>
     <Container maxW="container.lg" bg="gray.100" my="4">
       <Flex justify="space-between">
         <Box flex={1} mx={4}>
@@ -209,6 +208,7 @@ const RewardDetail: NextPage<IProps> = (props) => {
         </AlertDialogOverlay>
       </AlertDialog>
     </Container>
+    </>
   )
 }
 
