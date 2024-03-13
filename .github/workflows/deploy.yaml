@@ -18,7 +18,5 @@ jobs:
           username: ${{ secrets.SSH_USER_NAME }}
           key: ${{secrets.SSH_KEY}}
           script: |
-            PATH=$PATH:/${{secrets.SSH_USER_NAME}}/usr/local/bin
-            echo $PATH
-            pm2 -v
+            cd ~/work/lenjoy_client && yarn build && pm2 restart client
         # ...deployment-specific steps
