@@ -87,7 +87,7 @@ const IEditor: React.FC<Props> = ({ defaultContent, onChange }) => {
     []
   );
   const [value, setValue] = useState(defaultContent || "");
-  const [height, setHeight] = useState("300px");
+  const [height, setHeight] = useState("auto");
   const editorRef = useRef<ReactQuill>(null);
 
   const handleChange = useCallback(

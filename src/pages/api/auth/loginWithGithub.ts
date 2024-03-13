@@ -15,7 +15,7 @@ export default async function handler(
   const { code } = request.body
   try {
     const res = await axios.post(
-      `http://localhost:3000/api/auth/loginWithGithub`,
+      `${process.env.NEXT_PUBLIC_API_URL}/auth/loginWithGithub`,
       {
         code,
       }

@@ -14,7 +14,7 @@ export default async function handler(
   );
   const { username, password, captchaId, captchaCode } = request.body
 try {
-  const res = await axios.post(`http://localhost:3000/api/auth/login`, {
+  const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, {
     username,
     password,
     captchaId,

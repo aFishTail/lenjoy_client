@@ -28,5 +28,9 @@ body {
 
 .ql-editor{
   min-height: 300px;
-  max-height: 800px;
+  max-height: 600px;
+}
+p a {
+  color: #4c6ef5;
+  text-decoration: underline;
 }
