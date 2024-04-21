@@ -20,6 +20,7 @@ import {
   Tab,
   TabIndicator,
   VStack,
+  useMediaQuery,
 } from "@chakra-ui/react";
 import {
   Search2Icon,
@@ -27,6 +28,7 @@ import {
   AddIcon,
   CheckIcon,
   BellIcon,
+  HamburgerIcon,
 } from "@chakra-ui/icons";
 import { useCallback, useContext, useMemo, useState, useEffect } from "react";
 import { GlobalContext } from "@/context/global";
@@ -37,14 +39,15 @@ import { AuthProvider } from "@/providers/auth";
 import { Link } from "@chakra-ui/next-js";
 import { useSignIn } from "@/hooks/features/useSignIn";
 import { useNotification } from "@/hooks/features/useNotification";
-import {Notification} from './notification'
+import { Notification } from "./notification";
+import { useMediaDevices } from "react-use";
 export const Header: React.FC = () => {
-  const { user, setUser } = useContext(GlobalContext);
+  const { user, setUser, isMobile } = useContext(GlobalContext);
   const router = useRouter();
   const toast = useToast();
 
   const { signStatus, dailySignIn } = useSignIn();
-  const {data} = useNotification()
+  const { data } = useNotification();
 
   const goLogin = () => {
     router.push("/signin");
@@ -129,124 +132,213 @@ export const Header: React.FC = () => {
     location.replace("/");
   }, []);
 
-  return (
-    <Center bg="white" w="100%" p={4} as="header">
-      <Container maxW="container.lg">
-        <HStack spacing={4}>
-          <Box w="120px">
-            <Text
-              cursor="pointer"
-              onClick={handleClickLogo}
-              data-testid="logo-title"
-            >
-              乐享
-            </Text>
-          </Box>
-          <Box w="600px">
-            <Flex justify="space-between">
-              <Tabs variant="unstyled" index={tabIndex} colorScheme="teal">
-                <TabList>
-                  <Tab
-                    onClick={() => {
-                      handleTabChange(0);
-                    }}
-                  >
-                    话题
-                  </Tab>
-                  <Tab
-                    onClick={() => {
-                      handleTabChange(1);
-                    }}
-                  >
-                    资源
-                  </Tab>
-                  <Tab
-                    onClick={() => {
-                      handleTabChange(2);
-                    }}
-                  >
-                    悬赏
-                  </Tab>
-                </TabList>
-                <TabIndicator
-                  mt="-1.5px"
-                  height="2px"
-                  bg="teal"
-                  borderRadius="1px"
-                />
-              </Tabs>
-              <InputGroup w="300px">
-                <Input></Input>
-                <InputRightElement>
-                  <Search2Icon color="gray.400" />
-                </InputRightElement>
-              </InputGroup>
-            </Flex>
-          </Box>
+  if (!isMobile) {
+    console.log("mobile", isMobile);
+    return (
+      <Center bg="white" w="100%" p={4} as="header">
+        <Container maxW="container.lg">
           <HStack spacing={4}>
-            {/* <Button colorScheme="teal" onClick={handlePost}>
-              发表
-            </Button> */}
+            <Box w="120px">
+              <Text
+                cursor="pointer"
+                onClick={handleClickLogo}
+                data-testid="logo-title"
+              >
+                乐享
+              </Text>
+            </Box>
+            <Box w="600px">
+              <Flex justify="space-between">
+                <Tabs variant="unstyled" index={tabIndex} colorScheme="teal">
+                  <TabList>
+                    <Tab
+                      onClick={() => {
+                        handleTabChange(0);
+                      }}
+                    >
+                      话题
+                    </Tab>
+                    <Tab
+                      onClick={() => {
+                        handleTabChange(1);
+                      }}
+                    >
+                      资源
+                    </Tab>
+                    <Tab
+                      onClick={() => {
+                        handleTabChange(2);
+                      }}
+                    >
+                      悬赏
+                    </Tab>
+                  </TabList>
+                  <TabIndicator
+                    mt="-1.5px"
+                    height="2px"
+                    bg="teal"
+                    borderRadius="1px"
+                  />
+                </Tabs>
+                <InputGroup w="300px">
+                  <Input></Input>
+                  <InputRightElement>
+                    <Search2Icon color="gray.400" />
+                  </InputRightElement>
+                </InputGroup>
+              </Flex>
+            </Box>
+            <HStack spacing={4}>
+              {/* <Button colorScheme="teal" onClick={handlePost}>
+                发表
+              </Button> */}
+              <Menu>
+                <MenuButton
+                  as={Button}
+                  colorScheme="teal"
+                  rightIcon={<AddIcon />}
+                >
+                  发布
+                </MenuButton>
+                <MenuList>
+                  <MenuItem onClick={() => handlePost(1)}>发布话题</MenuItem>
+                  <MenuItem onClick={() => handlePost(2)}>发布资源</MenuItem>
+                  <MenuItem onClick={() => handlePost(3)}>发布悬赏</MenuItem>
+                </MenuList>
+              </Menu>
+              <Notification></Notification>
+              {user ? (
+                <HStack>
+                  <Menu>
+                    <MenuButton
+                      as={Button}
+                      leftIcon={
+                        <Avatar name={user?.nickname} size="sm" src={avatar} />
+                      }
+                      bg="white"
+                      variant="line"
+                      _active={{ boxShadow: "none" }}
+                      _focus={{ boxShadow: "none" }}
+                      _hover={{ bg: "gray.50" }}
+                      rightIcon={<ChevronDownIcon />}
+                      data-testid="user-menu"
+                      p={0}
+                    >
+                      {user.nickname}
+                    </MenuButton>
+                    <MenuList>
+                      <MenuItem onClick={handleGoUserCenter}>个人中心</MenuItem>
+                      <MenuItem onClick={handleGoEditUser}>编辑资料</MenuItem>
+                      <MenuItem onClick={handleLogout}>退出登录</MenuItem>
+                    </MenuList>
+                  </Menu>
+                  <HStack>
+                    {!signStatus ? (
+                      <Button
+                        leftIcon={<CheckIcon></CheckIcon>}
+                        colorScheme={"orange"}
+                        onClick={dailySignIn}
+                      >
+                        签到
+                      </Button>
+                    ) : null}
+                  </HStack>
+                </HStack>
+              ) : (
+                <Button variant="outline" onClick={goLogin}>
+                  登录
+                </Button>
+              )}
+            </HStack>
+          </HStack>
+        </Container>
+      </Center>
+    );
+  }
+  // is mobile view
+  return (
+    <HStack py={2}>
+      <Menu>
+        <MenuButton
+          as={Button}
+          bg="white"
+          variant="line"
+          _active={{ boxShadow: "none" }}
+          _focus={{ boxShadow: "none" }}
+          _hover={{ bg: "gray.50" }}
+          rightIcon={<HamburgerIcon />}
+          data-testid="user-menu"
+        >
+          乐享
+        </MenuButton>
+        <MenuList>
+          <MenuItem onClick={handleGoUserCenter}>个人中心</MenuItem>
+          <MenuItem onClick={handleGoEditUser}>编辑资料</MenuItem>
+          <MenuItem onClick={handleLogout}>退出登录</MenuItem>
+        </MenuList>
+      </Menu>
+      <InputGroup w={"100px"}>
+        <Input></Input>
+        <InputRightElement>
+          <Search2Icon color="gray.400" />
+        </InputRightElement>
+      </InputGroup>
+
+      <HStack spacing={4}>
+        <Menu>
+          <MenuButton as={Button} colorScheme="teal" rightIcon={<AddIcon />}>
+            发布
+          </MenuButton>
+          <MenuList>
+            <MenuItem onClick={() => handlePost(1)}>发布话题</MenuItem>
+            <MenuItem onClick={() => handlePost(2)}>发布资源</MenuItem>
+            <MenuItem onClick={() => handlePost(3)}>发布悬赏</MenuItem>
+          </MenuList>
+        </Menu>
+        <Notification></Notification>
+        {user ? (
+          <HStack>
             <Menu>
               <MenuButton
                 as={Button}
-                colorScheme="teal"
-                rightIcon={<AddIcon />}
+                leftIcon={
+                  <Avatar name={user?.nickname} size="sm" src={avatar} />
+                }
+                bg="white"
+                variant="line"
+                _active={{ boxShadow: "none" }}
+                _focus={{ boxShadow: "none" }}
+                _hover={{ bg: "gray.50" }}
+                rightIcon={<ChevronDownIcon />}
+                data-testid="user-menu"
+                p={0}
               >
-                发布
+                {user.nickname}
               </MenuButton>
               <MenuList>
-                <MenuItem onClick={() => handlePost(1)}>发布话题</MenuItem>
-                <MenuItem onClick={() => handlePost(2)}>发布资源</MenuItem>
-                <MenuItem onClick={() => handlePost(3)}>发布悬赏</MenuItem>
+                <MenuItem onClick={handleGoUserCenter}>个人中心</MenuItem>
+                <MenuItem onClick={handleGoEditUser}>编辑资料</MenuItem>
+                <MenuItem onClick={handleLogout}>退出登录</MenuItem>
               </MenuList>
             </Menu>
-            <Notification></Notification>
-            {user ? (
-              <HStack>
-                <Menu>
-                  <MenuButton
-                    as={Button}
-                    leftIcon={
-                      <Avatar name={user?.nickname} size="sm" src={avatar} />
-                    }
-                    bg="white"
-                    variant="line"
-                    _active={{ boxShadow: "none" }}
-                    _focus={{ boxShadow: "none" }}
-                    _hover={{ bg: "gray.50" }}
-                    rightIcon={<ChevronDownIcon />}
-                    data-testid="user-menu"
-                    p={0}
-                  >
-                    {user.nickname}
-                  </MenuButton>
-                  <MenuList>
-                    <MenuItem onClick={handleGoUserCenter}>个人中心</MenuItem>
-                    <MenuItem onClick={handleGoEditUser}>编辑资料</MenuItem>
-                    <MenuItem onClick={handleLogout}>退出登录</MenuItem>
-                  </MenuList>
-                </Menu>
-                <HStack>
-                  {!signStatus ? (
-                    <Button
-                      leftIcon={<CheckIcon></CheckIcon>}
-                      colorScheme={"orange"}
-                      onClick={dailySignIn}
-                    >
-                      签到
-                    </Button>
-                  ) : null}
-                </HStack>
-              </HStack>
-            ) : (
-              <Button variant="outline" onClick={goLogin}>
-                登录
-              </Button>
-            )}
+            <HStack>
+              {!signStatus ? (
+                <Button
+                  leftIcon={<CheckIcon></CheckIcon>}
+                  colorScheme={"orange"}
+                  onClick={dailySignIn}
+                >
+                  签到
+                </Button>
+              ) : null}
+            </HStack>
           </HStack>
-        </HStack>
-      </Container>
-    </Center>
+        ) : (
+          <Button variant="outline" onClick={goLogin}>
+            登录
+          </Button>
+        )}
+      </HStack>
+    </HStack>
   );
 };

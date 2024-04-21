@@ -46,7 +46,7 @@ const TopicDetail: NextPage<IProps> = (props) => {
   const topic = props.data;
 
   const [isOwner, setIsOwner] = useState<Boolean>(false);
-  const { user } = useContext(GlobalContext);
+  const { user, isMobile } = useContext(GlobalContext);
 
   const router = useRouter();
 
@@ -167,7 +167,7 @@ const TopicDetail: NextPage<IProps> = (props) => {
             <Comment user={user} entity={topic} entityType="topic"></Comment>
           </Box>
 
-          <UserIntro user={topic.user}></UserIntro>
+          {!isMobile && <UserIntro user={topic.user}></UserIntro>}
         </Flex>
         <AlertDialog
           isOpen={isOpen}

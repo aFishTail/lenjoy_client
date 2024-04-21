@@ -1,3 +1,4 @@
+import { GlobalContext } from "@/context/global";
 import { useNotification } from "@/hooks/features/useNotification";
 import { getFullStaticSrc } from "@/utils/helper";
 import { BellIcon } from "@chakra-ui/icons";
@@ -25,14 +26,12 @@ import {
   Text,
 } from "@chakra-ui/react";
 import dayjs from "dayjs";
-import React from "react";
-import { BiCommentDetail } from "react-icons/bi";
-import { MdCalendarViewWeek } from "react-icons/md";
-import { DoLike } from "../DoLike";
+import React, { useContext } from "react";
 
 export const Notification: React.FC = () => {
   const btnRef = React.useRef();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { user } = useContext(GlobalContext);
   const {
     data,
     existNew,
@@ -47,7 +46,7 @@ export const Notification: React.FC = () => {
   //   item.status = 1;
   //   console.log("handleRead", item);
   // };
-
+  if (!user) return;
   return (
     <>
       <Box cursor={"pointer"} position={"relative"}>

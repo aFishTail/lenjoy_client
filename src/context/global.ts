@@ -1,4 +1,5 @@
 import React from 'react'
+import { boolean } from 'yup'
 
 export interface IGlobalContext {
   setting: ISetting
@@ -6,6 +7,7 @@ export interface IGlobalContext {
   categories: ICategory[]
   tags: ITag[]
   user: IUser
+  isMobile: boolean
   setUser: (arg: IUser | null) => void
   removeUser: () => void
   refreshUser: () => void
@@ -19,5 +21,6 @@ export const GlobalContext = React.createContext<IGlobalContext>({
   user: null as any,
   setUser: () => {},
   removeUser: () => {},
-  refreshUser: () => {}
+  refreshUser: () => {},
+  isMobile: false
 })
