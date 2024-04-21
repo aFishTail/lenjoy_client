@@ -230,3 +230,15 @@ interface IRewardAnswer {
   createAt: string
   updateAt: string
 }
+
+interface Notification {
+  id: string;
+  fromType: string;
+  type: string;
+  content: string;
+  entityType?: any;
+  entityId?: any;
+  status: number;
+  createAt: string;
+  updateAt: string;
+}

@@ -1,5 +1,5 @@
 import { Footer } from '@/components/Footer'
-import { Header } from '@/components/Header'
+import { Header } from '@/components/header'
 import { Rank } from '@/components/Rank'
 import { Category } from '@/components/Category'
 import { Box, Container, Flex, HStack } from '@chakra-ui/react'

@@ -20,118 +20,125 @@ import {
   Tab,
   TabIndicator,
   VStack,
-} from '@chakra-ui/react'
+} from "@chakra-ui/react";
 import {
   Search2Icon,
   ChevronDownIcon,
   AddIcon,
   CheckIcon,
-} from '@chakra-ui/icons'
-import { useCallback, useContext, useMemo, useState, useEffect } from 'react'
-import { GlobalContext } from '@/context/global'
-import { useRouter } from 'next/router'
-import storage from '@/utils/storage'
-import { getFullStaticSrc } from '@/utils/helper'
-import { AuthProvider } from '@/providers/auth'
-import { Link } from '@chakra-ui/next-js'
-import { useSignIn } from '@/hooks/features/useSignIn'
-
+  BellIcon,
+} from "@chakra-ui/icons";
+import { useCallback, useContext, useMemo, useState, useEffect } from "react";
+import { GlobalContext } from "@/context/global";
+import { useRouter } from "next/router";
+import storage from "@/utils/storage";
+import { getFullStaticSrc } from "@/utils/helper";
+import { AuthProvider } from "@/providers/auth";
+import { Link } from "@chakra-ui/next-js";
+import { useSignIn } from "@/hooks/features/useSignIn";
+import { useNotification } from "@/hooks/features/useNotification";
+import {Notification} from './notification'
 export const Header: React.FC = () => {
-  const { user, setUser } = useContext(GlobalContext)
-  const router = useRouter()
-  const toast = useToast()
+  const { user, setUser } = useContext(GlobalContext);
+  const router = useRouter();
+  const toast = useToast();
 
-  const { signStatus, dailySignIn } = useSignIn()
+  const { signStatus, dailySignIn } = useSignIn();
+  const {data} = useNotification()
 
   const goLogin = () => {
-    router.push('/signin')
-  }
+    router.push("/signin");
+  };
   const handleLogout = useCallback(() => {
     //TODO: 可以优化
-    AuthProvider.logout()
-    setUser(null)
-    storage.clearAll()
-    router.push('/')
-  }, [])
+    AuthProvider.logout();
+    setUser(null);
+    storage.clearAll();
+    router.push("/");
+  }, []);
 
   const handleGoUserCenter = useCallback(() => {
     //TODO: 可以优化
-    router.push('/user')
-  }, [])
+    router.push("/user");
+  }, []);
 
   const handleGoEditUser = useCallback(() => {
     //TODO: 可以优化
-    router.push('/user/edit')
-  }, [])
+    router.push("/user/edit");
+  }, []);
 
   const handlePost = useCallback(
     (type: number) => {
       if (!user) {
         toast({
-          title: '请先登录',
-          status: 'warning',
-          position: 'top',
+          title: "请先登录",
+          status: "warning",
+          position: "top",
           duration: 2000,
-        })
-        goLogin()
-        return
+        });
+        goLogin();
+        return;
       }
       switch (type) {
         case 1:
-          router.push('/topic/editor')
-          break
+          router.push("/topic/editor");
+          break;
         case 2:
-          router.push('/resource/editor')
-          break
+          router.push("/resource/editor");
+          break;
         case 3:
-          router.push('/reward/editor')
-          break
+          router.push("/reward/editor");
+          break;
 
         default:
-          break
+          break;
       }
     },
     [user]
-  )
+  );
 
-  const avatar = useMemo(() => getFullStaticSrc(user?.avatar), [user])
-  const [tabIndex, setTabIndex] = useState<number>()
+  const avatar = useMemo(() => getFullStaticSrc(user?.avatar), [user]);
+  const [tabIndex, setTabIndex] = useState<number>();
 
   const handleTabChange = (index: number) => {
-    setTabIndex(index)
+    setTabIndex(index);
     switch (index) {
       case 0:
-        router.push('/')
-        break
+        router.push("/");
+        break;
       case 1:
-        router.push('/resource')
-        break
+        router.push("/resource");
+        break;
       case 2:
-        router.push('/reward')
-        break
+        router.push("/reward");
+        break;
     }
-  }
+  };
 
   useEffect(() => {
-    if (router.pathname === '/' || router.pathname.includes('/topic')) {
-      setTabIndex(0)
-    } else if (router.pathname.includes('/resource')) {
-      setTabIndex(1)
-    } else if (router.pathname.includes('/reward')) {
-      setTabIndex(2)
+    if (router.pathname === "/" || router.pathname.includes("/topic")) {
+      setTabIndex(0);
+    } else if (router.pathname.includes("/resource")) {
+      setTabIndex(1);
+    } else if (router.pathname.includes("/reward")) {
+      setTabIndex(2);
     }
-  }, [router.pathname])
+  }, [router.pathname]);
 
   const handleClickLogo = useCallback(() => {
-    location.replace('/')
-  }, [])
+    location.replace("/");
+  }, []);
 
   return (
     <Center bg="white" w="100%" p={4} as="header">
       <Container maxW="container.lg">
         <HStack spacing={4}>
           <Box w="120px">
-            <Text cursor="pointer" onClick={handleClickLogo}>
+            <Text
+              cursor="pointer"
+              onClick={handleClickLogo}
+              data-testid="logo-title"
+            >
               乐享
             </Text>
           </Box>
@@ -141,21 +148,21 @@ export const Header: React.FC = () => {
                 <TabList>
                   <Tab
                     onClick={() => {
-                      handleTabChange(0)
+                      handleTabChange(0);
                     }}
                   >
                     话题
                   </Tab>
                   <Tab
                     onClick={() => {
-                      handleTabChange(1)
+                      handleTabChange(1);
                     }}
                   >
                     资源
                   </Tab>
                   <Tab
                     onClick={() => {
-                      handleTabChange(2)
+                      handleTabChange(2);
                     }}
                   >
                     悬赏
@@ -194,6 +201,7 @@ export const Header: React.FC = () => {
                 <MenuItem onClick={() => handlePost(3)}>发布悬赏</MenuItem>
               </MenuList>
             </Menu>
+            <Notification></Notification>
             {user ? (
               <HStack>
                 <Menu>
@@ -204,10 +212,12 @@ export const Header: React.FC = () => {
                     }
                     bg="white"
                     variant="line"
-                    _active={{ boxShadow: 'none' }}
-                    _focus={{ boxShadow: 'none' }}
-                    _hover={{ bg: 'gray.50' }}
+                    _active={{ boxShadow: "none" }}
+                    _focus={{ boxShadow: "none" }}
+                    _hover={{ bg: "gray.50" }}
                     rightIcon={<ChevronDownIcon />}
+                    data-testid="user-menu"
+                    p={0}
                   >
                     {user.nickname}
                   </MenuButton>
@@ -221,7 +231,7 @@ export const Header: React.FC = () => {
                   {!signStatus ? (
                     <Button
                       leftIcon={<CheckIcon></CheckIcon>}
-                      colorScheme={'orange'}
+                      colorScheme={"orange"}
                       onClick={dailySignIn}
                     >
                       签到
@@ -238,5 +248,5 @@ export const Header: React.FC = () => {
         </HStack>
       </Container>
     </Center>
-  )
-}
+  );
+};
