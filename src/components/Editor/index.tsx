@@ -92,6 +92,7 @@ const IEditor: React.FC<Props> = ({ defaultContent, onChange }) => {
 
   const handleChange = useCallback(
     (value) => {
+      console.log("handleChange", value);
       setValue(value);
       onChange(value);
     },

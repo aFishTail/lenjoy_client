@@ -87,7 +87,7 @@ const ResourceEditor: FC<IProps> = ({ id, resource }) => {
               position: "top",
             });
           }
-          router.replace("/");
+          router.replace("/resource");
         }}
       >
         {(formProps: FormikProps<any>) => (

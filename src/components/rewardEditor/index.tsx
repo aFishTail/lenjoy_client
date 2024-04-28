@@ -82,7 +82,7 @@ const RewardEditor: FC<IProps> = ({ id, reward }) => {
               position: "top",
             });
           }
-          router.replace("/");
+          router.replace("/reward");
         }}
       >
         {(formProps: FormikProps<any>) => (
