@@ -78,7 +78,7 @@ const ResourceDetail: NextPage<IProps> = (props) => {
       <Head>
         <title>{`${resource.name} - 乐享`}</title>
         <meta name="keywords" content={resource.name} />
-        <meta name="description" content={resource.name} />
+        <meta name="description" content={resource.content} />
       </Head>
       <Container maxW="container.lg" bg="gray.100" my="4">
         <Flex justify="space-between">

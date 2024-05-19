@@ -80,7 +80,7 @@ const RewardDetail: NextPage<IProps> = (props) => {
     <Head>
         <title>{`${data.title} - 乐享`}</title>
         <meta name="keywords" content={data.title} />
-        <meta name="description" content={data.title} />
+        <meta name="description" content={data.content} />
       </Head>
     <Container maxW="container.lg" bg="gray.100" my="4">
       <Flex justify="space-between">

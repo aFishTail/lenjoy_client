@@ -11,6 +11,7 @@ import {
 } from "react";
 import type ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import { Delta } from "quill";
 
 const QuillNoSSRWrapper = dynamic(
   async () => {
@@ -21,6 +22,16 @@ const QuillNoSSRWrapper = dynamic(
   },
   { ssr: false }
 );
+
+function base64ToBlob(base64Data) {
+  var byteCharacters = atob(base64Data.split(",")[1]);
+  var byteNumbers = new Array(byteCharacters.length);
+  for (var i = 0; i < byteCharacters.length; i++) {
+    byteNumbers[i] = byteCharacters.charCodeAt(i);
+  }
+  var byteArray = new Uint8Array(byteNumbers);
+  return new Blob([byteArray], { type: "image/png" }); // 这里的 'image/png' 需要根据实际情况调整
+}
 
 interface Props {
   defaultContent: string;
@@ -59,6 +70,7 @@ const IEditor: React.FC<Props> = ({ defaultContent, onChange }) => {
     range!.index += 1;
     editor.setSelection(range!); //光标位置加1
   };
+
   const modules: any = useMemo(
     // useMemo: 解决自定义失焦问题
     () => ({
@@ -86,15 +98,54 @@ const IEditor: React.FC<Props> = ({ defaultContent, onChange }) => {
     }),
     []
   );
-  const [value, setValue] = useState(defaultContent || "");
+  const [value, setValue] = useState(defaultContent);
   const [height, setHeight] = useState("auto");
   const editorRef = useRef<ReactQuill>(null);
 
+  const base64ToBlob = (base64) => {
+    const byteChars = atob(base64);
+    const byteNumbers = new Array(byteChars.length);
+    for (let i = 0; i < byteChars.length; i++) {
+      byteNumbers[i] = byteChars.charCodeAt(i);
+    }
+    const byteArray = new Uint8Array(byteNumbers);
+    return new Blob([byteArray], { type: "image/png" });
+  };
+
+  const uploadImgToOss = async (src: string) => {
+    if (src.startsWith("data:")) {
+      const base64 = src.split(",")[1];
+      const blob = base64ToBlob(base64);
+      const formData = new FormData();
+      formData.append("file", blob);
+      const { url } = await FileProvider.uploadArticleImage(formData);
+      return url;
+    }
+    return;
+  };
+
   const handleChange = useCallback(
-    (value) => {
-      console.log("handleChange", value);
-      setValue(value);
-      onChange(value);
+    async (value) => {
+      const editor = editorRef.current!.editor!;
+      const delta = editor.getContents();
+      let updateImgFlag = false;
+      for (let o of delta?.ops!) {
+        if (o.insert.image) {
+          const url = await uploadImgToOss(o.insert.image);
+          if (url) {
+            o.insert.image = url;
+            updateImgFlag = true;
+          }
+        }
+      }
+      if (updateImgFlag) {
+        const range = editor.getSelection();
+        editor.setContents(delta);
+        editor.setSelection(range?.index, range?.length);
+      } else {
+        setValue(value);
+        onChange(value);
+      }
     },
     [onChange, setValue]
   );

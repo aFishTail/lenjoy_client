@@ -75,7 +75,7 @@ const TopicDetail: NextPage<IProps> = (props) => {
       <Head>
         <title>{`${topic.title} - 乐享`}</title>
         <meta name="keywords" content={topic.title} />
-        <meta name="description" content={topic.title} />
+        <meta name="description" content={topic.content} />
       </Head>
       <Container maxW="container.lg" bg="gray.100" my="4">
         <Flex justify="space-between">

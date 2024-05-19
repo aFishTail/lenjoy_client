@@ -53,7 +53,6 @@ export function useNotification() {
         } else {
             setExistNew(data.some(e => e.status === 0))
         }
-        console.log('data', data, data.every(e => e.status === 1))
     }, [data])
 
     return {
