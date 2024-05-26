@@ -25,6 +25,7 @@ import {
   AlertDialogBody,
   Icon,
   Avatar,
+  position,
 } from "@chakra-ui/react";
 import { TopicProvider } from "@/providers/topic";
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
@@ -70,6 +71,32 @@ const TopicDetail: NextPage<IProps> = (props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = useRef<any>();
 
+  const UserEdit = ({ styles }) => {
+    return (
+      isOwner && (
+        <Box {...styles}>
+          <Menu>
+            <MenuButton
+              as={Button}
+              bg="white"
+              variant="line"
+              _active={{ boxShadow: "none" }}
+              _focus={{ boxShadow: "none" }}
+              _hover={{ bg: "gray.50" }}
+              rightIcon={<ChevronDownIcon />}
+            >
+              管理
+            </MenuButton>
+            <MenuList>
+              <MenuItem onClick={handleEdit}>修改</MenuItem>
+              <MenuItem onClick={handleDel}>删除</MenuItem>
+            </MenuList>
+          </Menu>
+        </Box>
+      )
+    );
+  };
+
   return (
     <>
       <Head>
@@ -77,12 +104,15 @@ const TopicDetail: NextPage<IProps> = (props) => {
         <meta name="keywords" content={topic.title} />
         <meta name="description" content={topic.content} />
       </Head>
-      <Container maxW="container.lg" bg="gray.100" my="4">
+      <Container
+        maxW={{ base: "full", md: "container.lg" }}
+        bg="gray.100"
+        my="4"
+      >
         <Flex justify="space-between">
-          <Box flex={1} mx={4}>
-            {/* 帖子详情区域 */}
-            <Box flex={1} px={3} py="2" mb="4" bg="white">
-              <HStack position={"relative"}>
+          <Box mx={{ base: 0, md: 4 }} flex={1}>
+            <Box px={3} py="2" mb="4" bg="white" position={"relative"}>
+              <HStack>
                 <Avatar
                   src={getFullStaticSrc(topic.user.avatar)}
                   name={topic.user.nickname}
@@ -90,32 +120,25 @@ const TopicDetail: NextPage<IProps> = (props) => {
                   borderRadius={"50%"}
                   m={2}
                 ></Avatar>
-                <VStack alignItems="flex-start">
+                <Flex
+                  alignItems={{ base: "center", md: "flex-start" }}
+                  justifyContent={{ base: "space-between" }}
+                  flexDirection={{ base: "row", md: "column" }}
+                  w={"full"}
+                >
                   <Text fontSize="20px">{topic.user.nickname}</Text>
-                  <Text>{dayjs(topic.createAt).fromNow()}</Text>
-                </VStack>
-                {isOwner && (
-                  <Box position="absolute" top="10px" right="10px">
-                    <Menu>
-                      <MenuButton
-                        as={Button}
-                        bg="white"
-                        variant="line"
-                        _active={{ boxShadow: "none" }}
-                        _focus={{ boxShadow: "none" }}
-                        _hover={{ bg: "gray.50" }}
-                        rightIcon={<ChevronDownIcon />}
-                      >
-                        管理
-                      </MenuButton>
-                      <MenuList>
-                        <MenuItem onClick={handleEdit}>修改</MenuItem>
-                        <MenuItem onClick={handleDel}>删除</MenuItem>
-                      </MenuList>
-                    </Menu>
-                  </Box>
-                )}
+                  <Text fontSize={"14px"}>
+                    {dayjs(topic.createAt).fromNow()}
+                  </Text>
+                </Flex>
               </HStack>
+              <UserEdit
+                styles={
+                  isMobile
+                    ? {}
+                    : { position: "absolute", top: "10px", right: "10px" }
+                }
+              ></UserEdit>
               <Text fontSize="xl" fontWeight="medium" pt="3">
                 {topic.title}
               </Text>
@@ -150,7 +173,6 @@ const TopicDetail: NextPage<IProps> = (props) => {
                 </HStack>
                 <HStack>
                   <Icon as={AiFillLike}></Icon>
-                  {/* <Text ml={1} mr={4} onClick={() =>{doLike(item.id, item.isLike ? 0 : 1)}}> */}
                   <Text ml={1} mr={4} onClick={() => {}}>
                     赞 {topic.likeCount}
                   </Text>
@@ -163,11 +185,12 @@ const TopicDetail: NextPage<IProps> = (props) => {
                 </HStack>
               </Flex>
             </Box>
-            {/* 评论区域 */}
             <Comment user={user} entity={topic} entityType="topic"></Comment>
           </Box>
 
-          {!isMobile && <UserIntro user={topic.user}></UserIntro>}
+          <Box display={{ base: "none", md: "block" }}>
+            <UserIntro user={topic.user}></UserIntro>
+          </Box>
         </Flex>
         <AlertDialog
           isOpen={isOpen}

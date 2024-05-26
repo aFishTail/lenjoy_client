@@ -40,7 +40,7 @@ const RewardEditor: FC<IProps> = ({ id, reward }) => {
   };
 
   return (
-    <Box py="4" px="96">
+    <Box my="4" mx={{ base: 4, md: 96 }} px={4} bg={"white"} borderRadius={4}>
       <Formik
         initialValues={{
           title: (reward?.title as string) || "",
@@ -111,7 +111,8 @@ const RewardEditor: FC<IProps> = ({ id, reward }) => {
                   <FormControl
                     display="flex"
                     alignItems="center"
-                    w="150px"
+                    w={"150px"}
+                    flexShrink={0}
                     mr={4}
                   >
                     <FormLabel>公开悬赏</FormLabel>

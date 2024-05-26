@@ -75,7 +75,10 @@ const Home: NextPage<IProps> = (props) => {
         />
         <meta name="description" content="悬赏，资源悬赏" />
       </Head>
-      <Box overflow="auto" h="calc(100vh - 200px)">
+      <Box
+        overflow="auto"
+        h={{ base: "calc(100vh - 140px)", md: "calc(100vh - 200px)" }}
+      >
         <InfiniteScroll
           pageStart={1}
           loadMore={loadTopics}

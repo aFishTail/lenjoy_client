@@ -1,4 +1,4 @@
-import { TopicList } from '@/components/topicList'
+import { TopicList } from "@/components/topicList";
 import {
   Avatar,
   Box,
@@ -25,12 +25,11 @@ import {
   ModalOverlay,
   useDisclosure,
   Badge,
-} from '@chakra-ui/react'
-import { NextPage } from 'next'
-import InfiniteScroll from 'react-infinite-scroller'
-import { Field, FieldInputProps, Form, Formik, FormikProps } from 'formik'
-import * as Yup from 'yup'
-import FileUpload from '@/components/form/FileUpload'
+} from "@chakra-ui/react";
+import { NextPage } from "next";
+import { Field, FieldInputProps, Form, Formik, FormikProps } from "formik";
+import * as Yup from "yup";
+import FileUpload from "@/components/form/FileUpload";
 import {
   useCallback,
   useContext,
@@ -38,82 +37,81 @@ import {
   useMemo,
   useRef,
   useState,
-} from 'react'
-import { UserProvider } from '@/providers/user'
-import { FileProvider } from '@/providers/file'
-import { GlobalContext } from '@/context/global'
-import UpdateInfo from './components/UpdateInfo'
-import { useCountDownWithCache } from '@/hooks/useCountDownWithCache'
-import UserEmailStatus from './components/UserEmailStatus'
-import { useRouter } from 'next/router'
+} from "react";
+import { UserProvider } from "@/providers/user";
+import { FileProvider } from "@/providers/file";
+import { GlobalContext } from "@/context/global";
+import UpdateInfo from "./components/UpdateInfo";
+import { useCountDownWithCache } from "@/hooks/useCountDownWithCache";
+import UserEmailStatus from "./components/UserEmailStatus";
+import { useRouter } from "next/router";
 
-type SettingType = 'email' | 'password'
-type PageTab = 'basic' | 'setting'
+type SettingType = "email" | "password";
+type PageTab = "basic" | "setting";
 const tabMap = {
-  basic:0,
-  setting:1,
-}
+  basic: 0,
+  setting: 1,
+};
 
 interface FormValues {
-  nickname: string
-  description: string
+  nickname: string;
+  description: string;
 }
 
 const EditUser: NextPage = (props) => {
-  const toast = useToast()
-  const { user, setUser } = useContext(GlobalContext)
+  const toast = useToast();
+  const { user, setUser } = useContext(GlobalContext);
   const [initialFormValues, setInitialFormValues] = useState<FormValues>({
-    nickname: '',
-    description: '',
-  })
-  const [avatar, setAvatar] = useState<string>(user?.avatar)
-  const avatarSrc = useMemo(() => 'http://localhost:3000' + avatar, [avatar])
-  const [settingType, setSettingType] = useState<SettingType>('email')
+    nickname: "",
+    description: "",
+  });
+  const [avatar, setAvatar] = useState<string>(user?.avatar);
+  const avatarSrc = useMemo(() => "http://localhost:3000" + avatar, [avatar]);
+  const [settingType, setSettingType] = useState<SettingType>("email");
   const handleUpdatePassword = useCallback(() => {
-    setSettingType('password')
-    openSettingModal()
-  }, [])
-  const { isOpen, onOpen: openSettingModal, onClose } = useDisclosure()
-  const [tabIndex, setTabIndex] = useState<number>(0)
-  const router = useRouter()
-  const {tab} = router.query
-  const queryTabKey = useMemo(() => router.query.tab, [router.query])
+    setSettingType("password");
+    openSettingModal();
+  }, []);
+  const { isOpen, onOpen: openSettingModal, onClose } = useDisclosure();
+  const [tabIndex, setTabIndex] = useState<number>(0);
+  const router = useRouter();
+  const { tab } = router.query;
+  const queryTabKey = useMemo(() => router.query.tab, [router.query]);
 
   useEffect(() => {
-    console.log('tab', queryTabKey)
-    setTabIndex(tabMap[queryTabKey as string])
-  }, [queryTabKey])
+    console.log("tab", queryTabKey);
+    setTabIndex(tabMap[queryTabKey as string]);
+  }, [queryTabKey]);
 
   useEffect(() => {
     setInitialFormValues({
-      nickname: user?.nickname || '',
-      description: user?.description || '',
-    })
-  }, [user])
-
+      nickname: user?.nickname || "",
+      description: user?.description || "",
+    });
+  }, [user]);
 
   const handleAvatarChange = async (file: File) => {
-    const formData = new FormData()
-    formData.append('file', file)
-    const { url } = await FileProvider.uploadAvatar(formData)
-    setAvatar(url)
-  }
+    const formData = new FormData();
+    formData.append("file", file);
+    const { url } = await FileProvider.uploadAvatar(formData);
+    setAvatar(url);
+  };
 
   const handleGoTab = (tab: PageTab) => {
     router.push({
-      pathname: '/user/edit',
+      pathname: "/user/edit",
       query: {
-        tab
-      }
-    })
-  }
-  
+        tab,
+      },
+    });
+  };
+
   return (
-    <Container maxW={'container.lg'} mt={4}>
+    <Container maxW={"container.lg"} mt={4}>
       <Tabs bg="white" index={tabIndex}>
         <TabList>
-          <Tab onClick={() => handleGoTab('basic')}>个人资料</Tab>
-          <Tab onClick={() => handleGoTab('setting')}>账号设置</Tab>
+          <Tab onClick={() => handleGoTab("basic")}>个人资料</Tab>
+          <Tab onClick={() => handleGoTab("setting")}>账号设置</Tab>
         </TabList>
         <TabPanels>
           <TabPanel>
@@ -125,8 +123,8 @@ const EditUser: NextPage = (props) => {
                 }}
                 validationSchema={Yup.object({
                   nickname: Yup.string()
-                    .max(15, '最长15个字符')
-                    .required('请填写昵称'),
+                    .max(15, "最长15个字符")
+                    .required("请填写昵称"),
                 })}
                 enableReinitialize
                 onSubmit={async (values: FormValues, actions) => {
@@ -134,20 +132,20 @@ const EditUser: NextPage = (props) => {
                     avatar,
                     nickname: nickname,
                     description,
-                  })
-                  setUser(user)
+                  });
+                  setUser(user);
                   toast({
-                    title: '保存成功',
-                    status: 'success',
-                    position: 'top',
-                  })
+                    title: "保存成功",
+                    status: "success",
+                    position: "top",
+                  });
                 }}
               >
                 {(formProps: FormikProps<any>) => (
                   <Form>
-                    <FormControl display="flex" py={4}>
+                    <FormControl display="flex" py={{ base: 2, md: 4 }}>
                       <FormLabel
-                        w={48}
+                        w={{ base: 16, md: 48 }}
                         textAlign="right"
                         flexShrink={0}
                         htmlFor="avatar"
@@ -165,9 +163,13 @@ const EditUser: NextPage = (props) => {
                         <FormControl
                           isInvalid={form.errors.nickname}
                           display="flex"
-                          py={4}
+                          py={{ base: 2, md: 4 }}
                         >
-                          <FormLabel w={48} textAlign="right" flexShrink={0}>
+                          <FormLabel
+                            w={{ base: 16, md: 48 }}
+                            textAlign="right"
+                            flexShrink={0}
+                          >
                             昵称
                           </FormLabel>
                           <Box flex={1}>
@@ -182,28 +184,32 @@ const EditUser: NextPage = (props) => {
 
                     <Field name="description">
                       {({ field, form }) => (
-                        <FormControl display="flex" py={4}>
-                          <FormLabel w={48} textAlign="right" flexShrink={0}>
+                        <FormControl display="flex" py={{ base: 2, md: 4 }}>
+                          <FormLabel
+                            w={{ base: 16, md: 48 }}
+                            textAlign="right"
+                            flexShrink={0}
+                          >
                             个性签名
                           </FormLabel>
                           <Input {...field} />
                         </FormControl>
                       )}
                     </Field>
-                    {/* <FormControl display="flex" py={4}>
+                    {/* <FormControl display="flex" py={{base: 2, md: 4}}>
                       <FormLabel
-                        w={48}
+                        w={{ base: 16, md: 48 }}
                         textAlign="right"
                         flexShrink={0}
                       ></FormLabel>
                     
                     </FormControl> */}
                     <Button
-                      ml={48}
-                      bg={'green.400'}
-                      color={'white'}
+                      ml={{ base: 12, md: 48 }}
+                      bg={"green.400"}
+                      color={"white"}
                       _hover={{
-                        bg: 'green.500',
+                        bg: "green.500",
                       }}
                       isLoading={formProps.isSubmitting}
                       type="submit"
@@ -222,18 +228,18 @@ const EditUser: NextPage = (props) => {
                 <Button>点击设置</Button>
               </HStack> */}
               <HStack>
-                <Text as={'b'} w="24">
+                <Text as={"b"} w={{ base: 12, md: 24 }}>
                   邮箱
                 </Text>
                 <Text>{user?.email}</Text>
                 <UserEmailStatus user={user}></UserEmailStatus>
               </HStack>
               <HStack>
-                <Text as={'b'} w="24">
+                <Text as={"b"} w={{ base: 12, md: 24 }}>
                   密码
                 </Text>
                 <Button
-                  colorScheme={'blue'}
+                  colorScheme={"blue"}
                   variant="ghost"
                   onClick={handleUpdatePassword}
                 >
@@ -248,7 +254,7 @@ const EditUser: NextPage = (props) => {
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>
-            {settingType === 'email' ? ' 修改邮箱' : '修改密码'}
+            {settingType === "email" ? " 修改邮箱" : "修改密码"}
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody>
@@ -257,7 +263,7 @@ const EditUser: NextPage = (props) => {
         </ModalContent>
       </Modal>
     </Container>
-  )
-}
+  );
+};
 
-export default EditUser
+export default EditUser;

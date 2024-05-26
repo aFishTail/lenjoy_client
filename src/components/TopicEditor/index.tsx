@@ -50,8 +50,7 @@ const TopicEditor: FC<IProps> = ({ id, topic }) => {
   };
 
   return (
-    // <topicEditorContent.Provider value={{ content, setContent }}>
-    <Box py="4" px="96">
+    <Box my="4" mx={{ base: 4, md: 96 }} px={4} bg={"white"} borderRadius={4}>
       <Formik
         initialValues={{
           title: topic?.title as string,
@@ -148,7 +147,7 @@ const TopicEditor: FC<IProps> = ({ id, topic }) => {
               type="submit"
               my={"4"}
             >
-              {mode === "create" ? "发表帖子" : "update"}
+              {mode === "create" ? "发布话题" : "编辑话题"}
             </Button>
           </Form>
         )}

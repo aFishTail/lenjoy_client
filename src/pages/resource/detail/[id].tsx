@@ -49,7 +49,7 @@ const ResourceDetail: NextPage<IProps> = (props) => {
   const resource = props.data;
 
   const [isOwner, setIsOwner] = useState<Boolean>(false);
-  const { user } = useContext(GlobalContext);
+  const { user, isMobile } = useContext(GlobalContext);
 
   const router = useRouter();
 
@@ -73,6 +73,32 @@ const ResourceDetail: NextPage<IProps> = (props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = useRef<any>();
 
+  const UserEdit = ({ styles }) => {
+    return (
+      isOwner && (
+        <Box {...styles}>
+          <Menu>
+            <MenuButton
+              as={Button}
+              bg="white"
+              variant="line"
+              _active={{ boxShadow: "none" }}
+              _focus={{ boxShadow: "none" }}
+              _hover={{ bg: "gray.50" }}
+              rightIcon={<ChevronDownIcon />}
+            >
+              管理
+            </MenuButton>
+            <MenuList>
+              <MenuItem onClick={handleEdit}>修改</MenuItem>
+              <MenuItem onClick={handleDel}>删除</MenuItem>
+            </MenuList>
+          </Menu>
+        </Box>
+      )
+    );
+  };
+
   return (
     <>
       <Head>
@@ -80,12 +106,16 @@ const ResourceDetail: NextPage<IProps> = (props) => {
         <meta name="keywords" content={resource.name} />
         <meta name="description" content={resource.content} />
       </Head>
-      <Container maxW="container.lg" bg="gray.100" my="4">
-        <Flex justify="space-between">
-          <Box flex={1} mx={4}>
+      <Container
+        maxW={{ base: "full", md: "container.lg" }}
+        bg="gray.100"
+        my="4"
+      >
+        <Flex>
+          <Box flex={1} mx={{ base: 0, md: 4 }}>
             {/* 帖子详情区域 */}
-            <Box flex={1} px={3} py="2" mb="4" bg="white">
-              <HStack position={"relative"}>
+            <Box flex={1} px={3} py="2" mb="4" bg="white" position={"relative"}>
+              <HStack>
                 <Avatar
                   src={getFullStaticSrc(resource.user.avatar)}
                   name={resource.user.nickname}
@@ -93,32 +123,27 @@ const ResourceDetail: NextPage<IProps> = (props) => {
                   borderRadius={"50%"}
                   m={2}
                 ></Avatar>
-                <VStack alignItems="flex-start">
+                <Flex
+                  alignItems={{ base: "center", md: "flex-start" }}
+                  justifyContent={{ base: "space-between" }}
+                  flexDirection={{ base: "row", md: "column" }}
+                  w={"full"}
+                >
                   <Text fontSize="20px">{resource.user.nickname}</Text>
-                  <Text>{dayjs(resource.createAt).fromNow()}</Text>
-                </VStack>
-                {isOwner && (
-                  <Box position="absolute" top="10px" right="10px">
-                    <Menu>
-                      <MenuButton
-                        as={Button}
-                        bg="white"
-                        variant="line"
-                        _active={{ boxShadow: "none" }}
-                        _focus={{ boxShadow: "none" }}
-                        _hover={{ bg: "gray.50" }}
-                        rightIcon={<ChevronDownIcon />}
-                      >
-                        管理
-                      </MenuButton>
-                      <MenuList>
-                        <MenuItem onClick={handleEdit}>修改</MenuItem>
-                        <MenuItem onClick={handleDel}>删除</MenuItem>
-                      </MenuList>
-                    </Menu>
-                  </Box>
-                )}
+                  <Text fontSize={"14px"}>
+                    {dayjs(resource.createAt).fromNow()}
+                  </Text>
+                </Flex>
               </HStack>
+
+              <UserEdit
+                styles={
+                  isMobile
+                    ? {}
+                    : { position: "absolute", top: "10px", right: "10px" }
+                }
+              ></UserEdit>
+
               <Text fontSize="xl" fontWeight="medium" pt="3">
                 {resource.name}
               </Text>
@@ -175,8 +200,9 @@ const ResourceDetail: NextPage<IProps> = (props) => {
               entityType="resource"
             ></Comment>
           </Box>
-
-          <UserIntro user={resource.user}></UserIntro>
+          <Box display={{ base: "none", md: "block" }}>
+            <UserIntro user={resource.user}></UserIntro>
+          </Box>
         </Flex>
         <AlertDialog
           isOpen={isOpen}

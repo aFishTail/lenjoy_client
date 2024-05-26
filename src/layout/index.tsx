@@ -1,5 +1,5 @@
 import { Footer } from "@/components/Footer";
-import { Header } from "@/components/header";
+import { Header } from "@/components/header/index";
 import { Rank } from "@/components/Rank";
 import { Category } from "@/components/Category";
 import { Box, Container, Flex, HStack } from "@chakra-ui/react";
@@ -53,7 +53,11 @@ export const AppLayout: React.FC = ({ children }) => {
   return (
     <Box bg="gray.100" minH="100vh">
       <Header></Header>
-      <Box minH="calc(100vh - 150px)" p={4}>
+      <Box
+        p={{ base: 0, md: 4 }}
+        mt={{ base: 4, md: 0 }}
+        minH="calc(100vh - 150px)"
+      >
         {children}
       </Box>
       <Footer></Footer>

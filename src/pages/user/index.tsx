@@ -1,6 +1,6 @@
-import { TopicList } from '@/components/topicList'
-import { GlobalContext } from '@/context/global'
-import { TopicProvider } from '@/providers/topic'
+import { TopicList } from "@/components/topicList";
+import { GlobalContext } from "@/context/global";
+import { TopicProvider } from "@/providers/topic";
 import {
   Avatar,
   Box,
@@ -19,27 +19,26 @@ import {
   Tab,
   TabPanels,
   TabPanel,
-} from '@chakra-ui/react'
-import { AddIcon } from '@chakra-ui/icons'
-import { GetServerSideProps, NextPage } from 'next'
-import { useCallback, useContext, useEffect, useState } from 'react'
-import InfiniteScroll from 'react-infinite-scroller'
-import UserBg from '@/static/images/default-user-bg.jpg'
+} from "@chakra-ui/react";
+import { AddIcon } from "@chakra-ui/icons";
+import { GetServerSideProps, NextPage } from "next";
+import { useCallback, useContext, useEffect, useState } from "react";
+import InfiniteScroll from "react-infinite-scroller";
+import UserBg from "@/static/images/default-user-bg.jpg";
 
-
-const PAGE_SIZE = 8
+const PAGE_SIZE = 8;
 
 const UserCenter: NextPage = (props) => {
-  const { user } = useContext(GlobalContext)
+  const { user } = useContext(GlobalContext);
 
-  const [pageNum, setPageNum] = useState(1)
-  const [total, setTotal] = useState(0)
-  const [topics, setTopics] = useState<ITopic[]>([])
+  const [pageNum, setPageNum] = useState(1);
+  const [total, setTotal] = useState(0);
+  const [topics, setTopics] = useState<ITopic[]>([]);
 
   useEffect(() => {
-    if (!user?.id) return
-    loadTopics()
-  }, [user])
+    if (!user?.id) return;
+    loadTopics();
+  }, [user]);
 
   const loadTopics = useCallback(
     async (pageNum = 1) => {
@@ -47,27 +46,27 @@ const UserCenter: NextPage = (props) => {
         pageNum,
         pageSize: PAGE_SIZE,
         userId: user.id,
-      })
-      setTopics((topics) => [...topics, ...res.records])
-      setPageNum(pageNum)
-      setTotal(res.total)
+      });
+      setTopics((topics) => [...topics, ...res.records]);
+      setPageNum(pageNum);
+      setTotal(res.total);
     },
     [user]
-  )
+  );
 
   return (
     <Container maxW="container.lg" mt={4}>
       {/* 需要指定背景色 */}
-      <Box h={'220px'} bgImg={UserBg.src} w="full" mb={4} pt="120px">
+      <Box h={"220px"} bgImg={UserBg.src} w="full" mb={4} pt="120px">
         <HStack pl={8}>
           <Avatar
             name={user?.nickname}
             size="xl"
-            src={user?.avatar || 'https://bit.ly/dan-abramov'}
+            src={user?.avatar || "https://bit.ly/dan-abramov"}
           />
-          <VStack alignItems={'flex-start'}>
+          <VStack alignItems={"flex-start"}>
             <Text as="b">{user?.nickname}</Text>
-            <Text>{user?.description || ' 这个人很懒， 什么都没有留下'}</Text>
+            <Text>{user?.description || " 这个人很懒， 什么都没有留下"}</Text>
           </VStack>
         </HStack>
       </Box>
@@ -75,7 +74,7 @@ const UserCenter: NextPage = (props) => {
         <Grid templateColumns="repeat(4, 1fr)" gap={4}>
           <GridItem colSpan={1} h="10">
             <Box bg="white" p="2">
-              <Text as={'b'}>个人成就</Text>
+              <Text as={"b"}>个人成就</Text>
               <HStack
                 justifyContent="space-between"
                 w="full"
@@ -106,7 +105,7 @@ const UserCenter: NextPage = (props) => {
             </Box>
 
             <Box bg="white" p="2" mt={3}>
-              <HStack justify={'space-between'}>
+              <HStack justify={"space-between"}>
                 <Heading fontSize="xl">个人资料</Heading>
                 <Text>编辑资料</Text>
               </HStack>
@@ -116,9 +115,9 @@ const UserCenter: NextPage = (props) => {
                 <Text>{user?.nickname}</Text>
               </HStack>
               <Divider />
-              <HStack py={2} alignItems='flex-start'>
-                <Text wordBreak={'keep-all'}>签名</Text>
-                <Text>{user?.description || '这个人很懒，什么都没有留下'}</Text>
+              <HStack py={2} alignItems="flex-start">
+                <Text wordBreak={"keep-all"}>签名</Text>
+                <Text>{user?.description || "这个人很懒，什么都没有留下"}</Text>
               </HStack>
               <Divider />
               {/* <HStack>
@@ -130,7 +129,7 @@ const UserCenter: NextPage = (props) => {
             </Box>
 
             <Box bg="white" p="2" mt={3}>
-              <HStack justify={'space-between'}>
+              <HStack justify={"space-between"}>
                 <HStack>
                   <Heading fontSize="xl">粉丝</Heading>
                   <Text fontSize="xl">0</Text>
@@ -138,23 +137,31 @@ const UserCenter: NextPage = (props) => {
                 <Text>更多</Text>
               </HStack>
               <Divider />
-              <HStack justify={'space-between'} py={2}>
+              <HStack justify={"space-between"} py={2}>
                 <Text>昵称</Text>
-                <Button colorScheme="messenger" leftIcon={<AddIcon></AddIcon>} size='xs'>
+                <Button
+                  colorScheme="messenger"
+                  leftIcon={<AddIcon></AddIcon>}
+                  size="xs"
+                >
                   关注
                 </Button>
               </HStack>
               <Divider />
-              <HStack justify={'space-between'} py={2}>
+              <HStack justify={"space-between"} py={2}>
                 <Text>昵称</Text>
-                <Button colorScheme="messenger" leftIcon={<AddIcon></AddIcon>} size='xs'>
+                <Button
+                  colorScheme="messenger"
+                  leftIcon={<AddIcon></AddIcon>}
+                  size="xs"
+                >
                   关注
                 </Button>
               </HStack>
             </Box>
 
             <Box bg="white" p="2" mt={3}>
-              <HStack justify={'space-between'}>
+              <HStack justify={"space-between"}>
                 <HStack>
                   <Heading fontSize="xl">关注</Heading>
                   <Text fontSize="xl">0</Text>
@@ -162,9 +169,13 @@ const UserCenter: NextPage = (props) => {
                 <Text>更多</Text>
               </HStack>
               <Divider />
-              <HStack justify={'space-between'} py={2}>
+              <HStack justify={"space-between"} py={2}>
                 <Text>昵称</Text>
-                <Button colorScheme="messenger" leftIcon={<AddIcon></AddIcon>} size='xs'>
+                <Button
+                  colorScheme="messenger"
+                  leftIcon={<AddIcon></AddIcon>}
+                  size="xs"
+                >
                   关注
                 </Button>
               </HStack>
@@ -177,7 +188,13 @@ const UserCenter: NextPage = (props) => {
               </TabList>
               <TabPanels>
                 <TabPanel>
-                  <Box overflow="auto" h="500px">
+                  <Box
+                    overflow="auto"
+                    h={{
+                      base: "calc(100vh - 140px)",
+                      md: "calc(100vh - 200px)",
+                    }}
+                  >
                     <InfiniteScroll
                       pageStart={1}
                       loadMore={loadTopics}
@@ -195,14 +212,14 @@ const UserCenter: NextPage = (props) => {
         </Grid>
       </HStack>
     </Container>
-  )
-}
+  );
+};
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   // const user =
   return {
     props: {},
-  }
-}
+  };
+};
 
-export default UserCenter
+export default UserCenter;

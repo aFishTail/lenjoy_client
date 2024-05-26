@@ -42,7 +42,7 @@ const ResourceEditor: FC<IProps> = ({ id, resource }) => {
   };
 
   return (
-    <Box py="4" px="96">
+    <Box my="4" mx={{ base: 4, md: 96 }} px={4} bg={"white"} borderRadius={4}>
       <Formik
         initialValues={{
           name: (resource?.name as string) || "",

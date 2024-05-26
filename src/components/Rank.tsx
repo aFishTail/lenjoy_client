@@ -1,6 +1,6 @@
-import { GlobalContext } from '@/context/global'
-import { getFullStaticSrc } from '@/utils/helper'
-import { DragHandleIcon } from '@chakra-ui/icons'
+import { GlobalContext } from "@/context/global";
+import { getFullStaticSrc } from "@/utils/helper";
+import { DragHandleIcon } from "@chakra-ui/icons";
 import {
   Avatar,
   Box,
@@ -10,13 +10,13 @@ import {
   ListItem,
   Text,
   VStack,
-} from '@chakra-ui/react'
-import { useContext } from 'react'
+} from "@chakra-ui/react";
+import { useContext } from "react";
 
 export const Rank: React.FC = () => {
-  const { scoreRankList } = useContext(GlobalContext)
+  const { scoreRankList } = useContext(GlobalContext);
   return (
-    <Box w="300px" h='fit-content' bg="white" py={2} px={4}>
+    <Box w="300px" h="fit-content" bg="white" py={2} px={4}>
       <Text
         fontSize="xl"
         fontWeight="semibold"
@@ -29,9 +29,13 @@ export const Rank: React.FC = () => {
       </Text>
       <List>
         {scoreRankList.map((item) => (
-          <ListItem key={item.userId} borderBottom="1px" borderBottomColor="gray.200" py={2} _last={
-              {border: 'none'}
-          }>
+          <ListItem
+            key={item.userId}
+            borderBottom="1px"
+            borderBottomColor="gray.200"
+            py={2}
+            _last={{ border: "none" }}
+          >
             <Flex justify="space-between" align="center">
               <HStack>
                 <Avatar
@@ -41,15 +45,15 @@ export const Rank: React.FC = () => {
                 />
                 <Box>
                   <Text color="gray.600">{item.nickname}</Text>
-                  <HStack color="gray.500" fontSize="sm">
+                  {/* <HStack color="gray.500" fontSize="sm">
                     <Text>{item.topicCount} 帖子</Text>
                     <Text>.</Text>
                     <Text>{item.commentCount} 评论</Text>
-                  </HStack>
+                  </HStack> */}
                 </Box>
               </HStack>
-              <HStack bg="gray.200" borderRadius="2xl" flex={0} h="20px" px={1}>
-                <DragHandleIcon></DragHandleIcon>
+              <HStack borderRadius="2xl" flex={0} h="20px">
+                {/* <DragHandleIcon></DragHandleIcon> */}
                 <Text color="gray.500" fontSize="sm">
                   {item.score}
                 </Text>
@@ -59,5 +63,5 @@ export const Rank: React.FC = () => {
         ))}
       </List>
     </Box>
-  )
-}
+  );
+};

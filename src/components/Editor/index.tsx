@@ -161,7 +161,6 @@ const IEditor: React.FC<Props> = ({ defaultContent, onChange }) => {
     style: {
       height,
       overflow: "hidden",
-      borderBottom: "1px solid #ccc",
     },
   };
   useEffect(() => {
