@@ -34,7 +34,7 @@ jobs:
           username: ${{ secrets.SSH_USER_NAME }}
           key: ${{ secrets.SSH_KEY }}
           source: "nextjs-static-files.tar.gz"
-          target: "~/work/lenjoy-client"
+          target: "~/work/lenjoy-client/"
 
       - name: Execute remote commands via SSH
         uses: appleboy/ssh-action@v0.1.5
