@@ -1,0 +1,49 @@
+name: Deploy to Server
+
+on:
+  push:
+    branches:
+      - main # 或你希望触发部署的分支
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "18" # 确保与项目的 Node.js 版本一致
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build the project
+        run: npm run build
+
+      - name: Archive production artifacts
+        run: tar -czf nextjs-static-files.tar.gz dist
+
+      - name: Copy files via SCP
+        uses: appleboy/scp-action@v0.1.1
+        with:
+          host: ${{ secrets.SSH_SERVER_IP }}
+          username: ${{ secrets.SSH_USER_NAME }}
+          key: ${{ secrets.SSH_KEY }}
+          source: "nextjs-static-files.tar.gz"
+          target: "~/work/lenjoy/lenjoy-client"
+
+      - name: Execute remote commands via SSH
+        uses: appleboy/ssh-action@v0.1.5
+        with:
+          host: ${{ secrets.SSH_SERVER_IP }}
+          username: ${{ secrets.SSH_USER_NAME }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            cd ~/work/lenjoy/lenjoy-client
+            tar -xzf nextjs-static-files.tar.gz
+            rm nextjs-static-files.tar.gz
+            pm2 restart your-app-name
