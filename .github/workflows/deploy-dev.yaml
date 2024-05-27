@@ -25,7 +25,7 @@ jobs:
         run: npm run build
 
       - name: Archive production artifacts
-        run: tar -czf nextjs-static-files.tar.gz dist
+        run: tar -czf nextjs-static-files.tar.gz out
 
       - name: Copy files via SCP
         uses: appleboy/scp-action@v0.1.1
