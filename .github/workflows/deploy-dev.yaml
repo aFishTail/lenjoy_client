@@ -46,4 +46,4 @@ jobs:
             cd ~/work/lenjoy-client
             tar -xzf nextjs-static-files.tar.gz
             rm nextjs-static-files.tar.gz
-            pm2 restart your-app-name
+            pm2 restart client
