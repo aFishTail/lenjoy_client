@@ -3,7 +3,7 @@ name: Deploy to Server
 on:
   push:
     branches:
-      - main # 或你希望触发部署的分支
+      # - main # 或你希望触发部署的分支
 
 jobs:
   build-and-deploy:
