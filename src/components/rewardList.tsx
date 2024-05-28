@@ -1,4 +1,4 @@
-import { UserLikeProvide } from '@/providers/user-like'
+import { UserLikeProvide } from "@/providers/user-like";
 import {
   Flex,
   HStack,
@@ -11,19 +11,19 @@ import {
   Box,
   Avatar,
   Badge,
-} from '@chakra-ui/react'
-import { useCallback } from 'react'
-import { AiFillLike } from 'react-icons/ai'
-import { BiCommentDetail } from 'react-icons/bi'
-import { MdCalendarViewWeek } from 'react-icons/md'
-import { getFullStaticSrc } from '@/utils/helper'
-import dayjs from 'dayjs'
-import Link from 'next/link'
-import { DoLike } from './DoLike'
+} from "@chakra-ui/react";
+import { useCallback } from "react";
+import { AiFillLike } from "react-icons/ai";
+import { BiCommentDetail } from "react-icons/bi";
+import { MdCalendarViewWeek } from "react-icons/md";
+import { getFullStaticSrc } from "@/utils/helper";
+import dayjs from "dayjs";
+import Link from "next/link";
+import { DoLike } from "./DoLike";
 
 interface IProps {
-  data: IReward[]
-  refresh: (index: number) => void
+  data: IReward[];
+  refresh: (index: number) => void;
 }
 
 export const RewardList = ({ data, refresh }: IProps) => {
@@ -33,15 +33,9 @@ export const RewardList = ({ data, refresh }: IProps) => {
         <List w="100%">
           {data.map((item, index) => (
             <ListItem key={item.id}>
-              <HStack
-                bg="white"
-                mb={3}
-                p={3}
-                align="start"
-                borderRadius="base"
-              >
+              <HStack bg="white" mb={3} p={3} align="start" borderRadius="base">
                 <VStack flex={1} align="start">
-                  <HStack width={'100%'}>
+                  <HStack width={"100%"}>
                     <Avatar
                       name={item.user.nickname}
                       size="xs"
@@ -52,7 +46,7 @@ export const RewardList = ({ data, refresh }: IProps) => {
                         {item.user.nickname}
                       </Text>
                       <Text color="gray.500" fontSize="xs">
-                        {item.status === 'finish' ? (
+                        {item.status === "finish" ? (
                           <Badge mr="2" fontSize="0.8em" colorScheme="red">
                             已结束
                           </Badge>
@@ -67,13 +61,14 @@ export const RewardList = ({ data, refresh }: IProps) => {
                   </HStack>
                   <Link
                     href={`/reward/detail/${item.id}`}
-                    style={{ width: '100%' }}
+                    style={{ width: "100%" }}
                   >
-                    <Flex w="100%">
+                    <Flex alignItems={"flex-start"}>
                       {item.isPublic && (
                         <Badge
-                          mr="1"
-                          colorScheme={item.isPublic ? 'green' : 'red'}
+                          mr={1}
+                          mt={1}
+                          colorScheme={item.isPublic ? "green" : "red"}
                         >
                           公开悬赏
                         </Badge>
@@ -125,13 +120,13 @@ export const RewardList = ({ data, refresh }: IProps) => {
           w="100%"
           h={24}
           justify="center"
-          alignItems={'center'}
+          alignItems={"center"}
           bg="white"
           shadow="xs"
         >
-          <Text color={'gray.500'}>抱歉，暂无数据</Text>
+          <Text color={"gray.500"}>抱歉，暂无数据</Text>
         </Flex>
       )}
     </>
-  )
-}
+  );
+};
