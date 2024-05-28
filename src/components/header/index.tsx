@@ -72,7 +72,7 @@ export const Header: React.FC = () => {
   }, []);
 
   const handlePost = useCallback(
-    (type: number) => {
+    (type: "resource" | "reward" | "topic") => {
       if (!user) {
         toast({
           title: "请先登录",
@@ -83,20 +83,7 @@ export const Header: React.FC = () => {
         goLogin();
         return;
       }
-      switch (type) {
-        case 1:
-          router.push("/topic/editor");
-          break;
-        case 2:
-          router.push("/resource/editor");
-          break;
-        case 3:
-          router.push("/reward/editor");
-          break;
-
-        default:
-          break;
-      }
+      router.push(`/${type}/editor`);
     },
     [user]
   );
@@ -111,20 +98,20 @@ export const Header: React.FC = () => {
         router.push("/");
         break;
       case 1:
-        router.push("/resource");
+        router.push("/reward");
         break;
       case 2:
-        router.push("/reward");
+        router.push("/topic");
         break;
     }
   };
 
   useEffect(() => {
-    if (router.pathname === "/" || router.pathname.includes("/topic")) {
+    if (router.pathname === "/" || router.pathname.includes("/resource")) {
       setTabIndex(0);
-    } else if (router.pathname.includes("/resource")) {
-      setTabIndex(1);
     } else if (router.pathname.includes("/reward")) {
+      setTabIndex(1);
+    } else if (router.pathname.includes("/topic")) {
       setTabIndex(2);
     }
   }, [router.pathname]);
@@ -155,21 +142,21 @@ export const Header: React.FC = () => {
                       handleTabChange(0);
                     }}
                   >
-                    话题
+                    资源
                   </Tab>
                   <Tab
                     onClick={() => {
                       handleTabChange(1);
                     }}
                   >
-                    资源
+                    悬赏
                   </Tab>
                   <Tab
                     onClick={() => {
                       handleTabChange(2);
                     }}
                   >
-                    悬赏
+                    话题
                   </Tab>
                 </TabList>
                 <TabIndicator
@@ -200,9 +187,15 @@ export const Header: React.FC = () => {
                 发布
               </MenuButton>
               <MenuList>
-                <MenuItem onClick={() => handlePost(1)}>发布话题</MenuItem>
-                <MenuItem onClick={() => handlePost(2)}>发布资源</MenuItem>
-                <MenuItem onClick={() => handlePost(3)}>发布悬赏</MenuItem>
+                <MenuItem onClick={() => handlePost("resource")}>
+                  发布资源
+                </MenuItem>
+                <MenuItem onClick={() => handlePost("reward")}>
+                  发布悬赏
+                </MenuItem>
+                <MenuItem onClick={() => handlePost("topic")}>
+                  发布话题
+                </MenuItem>
               </MenuList>
             </Menu>
             <Notification></Notification>
@@ -280,13 +273,13 @@ export const Header: React.FC = () => {
             ></MenuButton>
             <MenuList>
               <MenuItem as={"a"} href="/">
-                话题
-              </MenuItem>
-              <MenuItem as={"a"} href="/resource">
                 资源
               </MenuItem>
               <MenuItem as={"a"} href="/reward">
                 悬赏
+              </MenuItem>
+              <MenuItem as={"a"} href="/topic">
+                话题
               </MenuItem>
             </MenuList>
           </Menu>
@@ -309,9 +302,11 @@ export const Header: React.FC = () => {
               发布
             </MenuButton>
             <MenuList>
-              <MenuItem onClick={() => handlePost(1)}>发布话题</MenuItem>
-              <MenuItem onClick={() => handlePost(2)}>发布资源</MenuItem>
-              <MenuItem onClick={() => handlePost(3)}>发布悬赏</MenuItem>
+              <MenuItem onClick={() => handlePost("resource")}>
+                发布资源
+              </MenuItem>
+              <MenuItem onClick={() => handlePost("reward")}>发布悬赏</MenuItem>
+              <MenuItem onClick={() => handlePost("topic")}>发布话题</MenuItem>
             </MenuList>
           </Menu>
           <Notification></Notification>

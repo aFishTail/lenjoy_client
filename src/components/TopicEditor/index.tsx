@@ -87,7 +87,7 @@ const TopicEditor: FC<IProps> = ({ id, topic }) => {
               position: "top",
             });
           }
-          router.replace("/");
+          router.replace("/topic");
         }}
       >
         {(formProps: FormikProps<any>) => (
