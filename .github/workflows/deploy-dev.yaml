@@ -3,7 +3,7 @@ name: Deploy to Server
 on:
   push:
     branches:
-      # - main # 或你希望触发部署的分支
+      - main # 或你希望触发部署的分支
 
 jobs:
   build-and-deploy:
@@ -34,7 +34,7 @@ jobs:
           username: ${{ secrets.SSH_USER_NAME }}
           key: ${{ secrets.SSH_KEY }}
           source: "nextjs-static-files.tar.gz"
-          target: "~/work/lenjoy-client/"
+          target: "~/work/lenjoy_client/"
 
       - name: Execute remote commands via SSH
         uses: appleboy/ssh-action@v0.1.5
@@ -43,7 +43,7 @@ jobs:
           username: ${{ secrets.SSH_USER_NAME }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            cd ~/work/lenjoy-client
+            cd ~/work/lenjoy_client
             tar -xzf nextjs-static-files.tar.gz
             rm nextjs-static-files.tar.gz
             pm2 restart client
