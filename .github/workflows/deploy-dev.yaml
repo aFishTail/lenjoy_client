@@ -28,7 +28,7 @@ jobs:
         run: tar -czf nextjs-static-files.tar.gz .next
 
       - name: Copy files via SCP
-        uses: appleboy/scp-action@v0.1.1
+        uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.SSH_SERVER_IP }}
           username: ${{ secrets.SSH_USER_NAME }}
