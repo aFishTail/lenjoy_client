@@ -5,7 +5,6 @@ export default function Document() {
   return (
     <Html lang="en">
       <Head>
-        <meta name="baidu-site-verification" content="codeva-PoOXymScZA" />
         <script
           dangerouslySetInnerHTML={{
             __html: `
